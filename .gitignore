@@ -1,0 +1,7 @@
+.venv/
+.ms-playwright/
+__pycache__/
+.pytest_cache/
+*.pyc
+data/cache/
+out/

@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VNL 2026 Schedule</title>
+  <style>
+    :root {
+      --ink: #171717;
+      --muted: #696969;
+      --line: #d8d8d8;
+      --soft: #f4f5f7;
+      --accent: #006c67;
+      --highlight: #fff0a6;
+    }
+
+    @page {
+      size: A4;
+      margin: 8mm;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #ececec;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 9px;
+      letter-spacing: 0;
+    }
+
+    .app-shell {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: end;
+      padding: 12px;
+      margin: 0 0 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-size: 13px;
+    }
+
+    .controls label {
+      display: grid;
+      gap: 4px;
+      color: var(--muted);
+    }
+
+    .controls input,
+    .controls select,
+    .controls button {
+      height: 34px;
+      border: 1px solid #bdbdbd;
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      padding: 0 10px;
+    }
+
+    .controls .check {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      height: 34px;
+      color: var(--ink);
+    }
+
+    .controls .check input {
+      height: auto;
+    }
+
+    .controls button {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto;
+      padding: 8mm;
+      background: #fff;
+      box-shadow: 0 8px 24px rgb(0 0 0 / 18%);
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: start;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 7px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .meta {
+      min-width: 210px;
+      display: grid;
+      gap: 4px;
+      text-align: right;
+      font-size: 9px;
+      text-transform: uppercase;
+    }
+
+    .meta strong {
+      color: var(--muted);
+      margin-right: 8px;
+    }
+
+    .section {
+      margin-top: 9px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      break-after: avoid;
+      padding: 4px 0;
+      border-bottom: 1px solid var(--ink);
+      margin-bottom: 5px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .section-title span {
+      color: var(--muted);
+      font-size: 8px;
+      text-transform: uppercase;
+    }
+
+    .days {
+      columns: 2;
+      column-gap: 10mm;
+    }
+
+    .day {
+      display: inline-block;
+      width: 100%;
+      break-inside: avoid;
+      margin: 0 0 8px;
+    }
+
+    .day-title {
+      padding: 2px 0 3px;
+      border-bottom: 1px solid var(--line);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .match {
+      display: grid;
+      grid-template-columns: 31px minmax(42px, 56px) 1fr minmax(68px, 88px);
+      gap: 5px;
+      align-items: baseline;
+      min-height: 18px;
+      padding: 3px 0;
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    .match.highlighted {
+      background: var(--highlight);
+    }
+
+    .round {
+      color: var(--muted);
+      font-weight: 700;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .time {
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .teams {
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .venue {
+      color: var(--muted);
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    .footer {
+      margin-top: 10px;
+      padding-top: 6px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 8px;
+    }
+
+    .empty {
+      color: var(--muted);
+      padding: 12px 0;
+      font-size: 11px;
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .app-shell {
+        padding: 0;
+        max-width: none;
+      }
+
+      .controls {
+        display: none;
+      }
+
+      .page {
+        width: auto;
+        min-height: auto;
+        padding: 0;
+        box-shadow: none;
+      }
+
+      .section {
+        break-inside: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- APP_CONTROLS -->
+    <main class="page">
+      <header class="topbar">
+        <div>
+          <h1>Volleyball Nations League 2026</h1>
+          <div class="subtitle">Women and Men schedule &middot; local printable edition</div>
+        </div>
+        <div class="meta">
+          <div><strong>Timezone</strong>{{ timezone_label }}</div>
+          <div><strong>Highlight</strong>{{ highlight or "No highlight" }}</div>
+        </div>
+      </header>
+
+      {% for section in sections %}
+        <section class="section">
+          <div class="section-title">
+            <h2>{{ section.title }}</h2>
+            <span>{{ section.days.values() | map("length") | sum }} matches</span>
+          </div>
+          {% if section.days %}
+            <div class="days">
+              {% for matches in section.days.values() %}
+                <article class="day">
+                  <div class="day-title">{{ matches[0].day_label }}</div>
+                  {% for item in matches %}
+                    <div class="match{% if item.is_highlighted %} highlighted{% endif %}">
+                      <div class="round">{{ item.round_label }}</div>
+                      <div class="time">{{ item.time_label }}</div>
+                      <div class="teams">{{ item.matchup_label }}</div>
+                      <div class="venue">{{ item.venue_label }}</div>
+                    </div>
+                  {% endfor %}
+                </article>
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="empty">No matches for this selection.</div>
+          {% endif %}
+        </section>
+      {% endfor %}
+
+      <footer class="footer">
+        <div>All times {{ timezone_label }} &middot; Source: {{ source_name }} &middot; Data {{ version }}</div>
+        <div>Generated {{ generated_at.strftime("%-d %b %Y %H:%M") }}</div>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>
