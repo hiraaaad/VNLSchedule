@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260607142006",
+  "version": "wikipedia-20260607164450",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-06-07T14:20:06.136271Z",
+  "generated_at": "2026-06-07T16:44:50.097749Z",
   "matches": [
     {
       "competition": "women",
@@ -432,11 +432,11 @@
       "starts_at_utc": "2026-06-07T14:00:00Z",
       "team_a": "Dominican Republic",
       "team_b": "Netherlands",
-      "score": null,
+      "score": "0-3",
       "venue": "Nilson Nelson Gymnasium",
       "city": "Brasilia",
       "country": "Brazil",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "women",
