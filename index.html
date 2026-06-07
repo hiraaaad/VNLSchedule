@@ -17,7 +17,7 @@
 
     @page {
       size: A4;
-      margin: 7mm;
+      margin: 0;
     }
 
     * { box-sizing: border-box; }
@@ -298,11 +298,78 @@
         width: auto;
         min-height: auto;
         margin: 0;
-        padding: 0;
+        padding: 7mm 8mm;
         box-shadow: none;
       }
 
       .section { break-inside: auto; }
+
+      .topbar {
+        padding-bottom: 5px;
+        margin-bottom: 6px;
+      }
+
+      h1 {
+        font-size: 18px;
+      }
+
+      .subtitle {
+        font-size: 9px;
+      }
+
+      .meta {
+        font-size: 8px;
+      }
+
+      .section {
+        margin-top: 7px;
+      }
+
+      .section-title {
+        padding: 3px 0;
+        margin-bottom: 4px;
+      }
+
+      .section-title h2 {
+        font-size: 12px;
+      }
+
+      .days {
+        column-gap: 7mm;
+      }
+
+      .day {
+        margin-bottom: 6px;
+      }
+
+      .day-title {
+        font-size: 10px;
+      }
+
+      .match {
+        grid-template-columns: 24px 42px minmax(0, 1fr) minmax(58px, 76px);
+        gap: 4px;
+        min-height: 15px;
+        padding: 2px 0;
+      }
+
+      .round {
+        font-size: 8px;
+      }
+
+      .time {
+        font-size: 10px;
+      }
+
+      .teams {
+        font-size: 8.5px;
+        line-height: 1.15;
+      }
+
+      .venue {
+        font-size: 8px;
+        line-height: 1.15;
+      }
     }
   </style>
 </head>
