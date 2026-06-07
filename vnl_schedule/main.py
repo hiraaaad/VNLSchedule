@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from html import escape
+import re
+import unicodedata
 from typing import Annotated
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError, available_timezones
 
@@ -72,6 +74,31 @@ TIMEZONE_ALIASES = {
     "london": "Europe/London",
     "france": "Europe/Paris",
     "paris": "Europe/Paris",
+    "poland": "Europe/Warsaw",
+    "warsaw": "Europe/Warsaw",
+    "krakow": "Europe/Warsaw",
+    "krak\u00f3w": "Europe/Warsaw",
+    "gliwice": "Europe/Warsaw",
+    "slovenia": "Europe/Ljubljana",
+    "ljubljana": "Europe/Ljubljana",
+    "serbia": "Europe/Belgrade",
+    "belgrade": "Europe/Belgrade",
+    "italy": "Europe/Rome",
+    "rome": "Europe/Rome",
+    "germany": "Europe/Berlin",
+    "berlin": "Europe/Berlin",
+    "bulgaria": "Europe/Sofia",
+    "sofia": "Europe/Sofia",
+    "czech republic": "Europe/Prague",
+    "czechia": "Europe/Prague",
+    "prague": "Europe/Prague",
+    "netherlands": "Europe/Amsterdam",
+    "amsterdam": "Europe/Amsterdam",
+    "belgium": "Europe/Brussels",
+    "brussels": "Europe/Brussels",
+    "ukraine": "Europe/Kyiv",
+    "kyiv": "Europe/Kyiv",
+    "kiev": "Europe/Kyiv",
     "turkey": "Europe/Istanbul",
     "turkiye": "Europe/Istanbul",
     "istanbul": "Europe/Istanbul",
@@ -87,6 +114,28 @@ TIMEZONE_ALIASES = {
     "los angeles": "America/Los_Angeles",
     "utc": "UTC",
 }
+
+
+def normalize_timezone_query(value: str) -> str:
+    ascii_value = unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode("ascii")
+    return re.sub(r"[^a-z0-9]+", " ", ascii_value.casefold()).strip()
+
+
+def generated_timezone_aliases() -> dict[str, str]:
+    aliases: dict[str, str] = {}
+    for zone in sorted(available_timezones()):
+        if "/" not in zone:
+            continue
+        city = zone.rsplit("/", 1)[1].replace("_", " ")
+        normalized = normalize_timezone_query(city)
+        aliases.setdefault(normalized, zone)
+    return aliases
+
+
+def all_timezone_aliases() -> dict[str, str]:
+    aliases = generated_timezone_aliases()
+    aliases.update({normalize_timezone_query(alias): zone for alias, zone in TIMEZONE_ALIASES.items()})
+    return aliases
 
 
 def timezone_choices() -> list[str]:
@@ -107,7 +156,7 @@ def parse_competitions(values: list[str] | None) -> list[Competition]:
 
 def assert_timezone(timezone_name: str) -> str:
     timezone_name = timezone_name.strip()
-    timezone_name = TIMEZONE_ALIASES.get(timezone_name.casefold(), timezone_name)
+    timezone_name = all_timezone_aliases().get(normalize_timezone_query(timezone_name), timezone_name)
     try:
         ZoneInfo(timezone_name)
     except ZoneInfoNotFoundError as exc:
@@ -166,7 +215,7 @@ def render_controls(
     )
     timezone_alias_options = "\n".join(
         f'<option value="{escape(alias.title(), quote=True)}">{escape(target)}</option>'
-        for alias, target in sorted(TIMEZONE_ALIASES.items())
+        for alias, target in sorted(all_timezone_aliases().items())
     )
     team_options = "\n".join(
         f'<option value="{escape(team, quote=True)}" {"selected" if team == highlight else ""}>{escape(team)}</option>'
@@ -247,6 +296,6 @@ async def health() -> dict[str, str]:
 async def timezones() -> dict[str, object]:
     return {
         "default": DEFAULT_TIMEZONE,
-        "aliases": TIMEZONE_ALIASES,
+        "aliases": all_timezone_aliases(),
         "timezones": timezone_choices(),
     }

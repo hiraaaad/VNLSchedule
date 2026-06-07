@@ -482,6 +482,31 @@
       "london": "Europe/London",
       "france": "Europe/Paris",
       "paris": "Europe/Paris",
+      "poland": "Europe/Warsaw",
+      "warsaw": "Europe/Warsaw",
+      "krakow": "Europe/Warsaw",
+      "krak\u00f3w": "Europe/Warsaw",
+      "gliwice": "Europe/Warsaw",
+      "slovenia": "Europe/Ljubljana",
+      "ljubljana": "Europe/Ljubljana",
+      "serbia": "Europe/Belgrade",
+      "belgrade": "Europe/Belgrade",
+      "italy": "Europe/Rome",
+      "rome": "Europe/Rome",
+      "germany": "Europe/Berlin",
+      "berlin": "Europe/Berlin",
+      "bulgaria": "Europe/Sofia",
+      "sofia": "Europe/Sofia",
+      "czech republic": "Europe/Prague",
+      "czechia": "Europe/Prague",
+      "prague": "Europe/Prague",
+      "netherlands": "Europe/Amsterdam",
+      "amsterdam": "Europe/Amsterdam",
+      "belgium": "Europe/Brussels",
+      "brussels": "Europe/Brussels",
+      "ukraine": "Europe/Kyiv",
+      "kyiv": "Europe/Kyiv",
+      "kiev": "Europe/Kyiv",
       "turkey": "Europe/Istanbul",
       "turkiye": "Europe/Istanbul",
       "istanbul": "Europe/Istanbul",
@@ -532,9 +557,38 @@
       }[char]));
     }
 
+    function normalizeTimezoneQuery(value) {
+      return String(value || "")
+        .normalize("NFKD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim();
+    }
+
+    function generatedTimezoneAliases() {
+      const supported = Intl.supportedValuesOf ? Intl.supportedValuesOf("timeZone") : [];
+      const aliases = {};
+      for (const zone of supported) {
+        if (!zone.includes("/")) continue;
+        const city = zone.split("/").pop().replaceAll("_", " ");
+        const key = normalizeTimezoneQuery(city);
+        if (key && !aliases[key]) aliases[key] = zone;
+      }
+      return aliases;
+    }
+
+    function allTimezoneAliases() {
+      const generated = generatedTimezoneAliases();
+      for (const [alias, zone] of Object.entries(TIMEZONE_ALIASES)) {
+        generated[normalizeTimezoneQuery(alias)] = zone;
+      }
+      return generated;
+    }
+
     function resolveTimezone(value) {
       const trimmed = String(value || "").trim();
-      return TIMEZONE_ALIASES[trimmed.toLowerCase()] || trimmed || DEFAULT_TIMEZONE;
+      return allTimezoneAliases()[normalizeTimezoneQuery(trimmed)] || trimmed || DEFAULT_TIMEZONE;
     }
 
     function assertTimezone(timezone) {
@@ -705,7 +759,7 @@
 
     function setupControls() {
       const datalist = document.querySelector("#timezones");
-      const aliasOptions = Object.entries(TIMEZONE_ALIASES)
+      const aliasOptions = Object.entries(allTimezoneAliases())
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([alias, target]) => `<option value="${escapeHtml(alias.replace(/\b\w/g, char => char.toUpperCase()))}">${escapeHtml(target)}</option>`);
       const timezoneOptions = availableTimezones()

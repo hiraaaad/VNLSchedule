@@ -1,10 +1,13 @@
-from vnl_schedule.main import assert_timezone, timezone_choices
+from vnl_schedule.main import all_timezone_aliases, assert_timezone, timezone_choices
 
 
 def test_timezone_aliases_resolve_to_iana_names():
     assert assert_timezone("Indonesia") == "Asia/Jakarta"
     assert assert_timezone("Philippines") == "Asia/Manila"
     assert assert_timezone("Western Australia") == "Australia/Perth"
+    assert assert_timezone("Krakow") == "Europe/Warsaw"
+    assert assert_timezone("Krak\u00f3w") == "Europe/Warsaw"
+    assert assert_timezone("Gliwice") == "Europe/Warsaw"
 
 
 def test_timezone_choices_include_global_options():
@@ -13,3 +16,10 @@ def test_timezone_choices_include_global_options():
     assert "Australia/Perth" in choices
     assert "Asia/Jakarta" in choices
     assert "America/New_York" in choices
+
+
+def test_generated_timezone_aliases_include_city_names():
+    aliases = all_timezone_aliases()
+
+    assert aliases["warsaw"] == "Europe/Warsaw"
+    assert aliases["new york"] == "America/New_York"
