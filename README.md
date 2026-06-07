@@ -21,6 +21,20 @@ Open `http://127.0.0.1:8000`.
 
 The timezone field accepts IANA timezone names such as `Asia/Jakarta`, `Asia/Manila`, `Europe/Paris`, and `America/New_York`. It also accepts common country or city aliases such as `Indonesia`, `Philippines`, `Singapore`, `Japan`, `Perth`, and `Western Australia`.
 
+## Static GitHub Pages Version
+
+This repo also includes a static `index.html` that can run on GitHub Pages without Python. It loads `data/vnl_2026.json`, converts times in the browser, and uses the browser's Print dialog for PDF export.
+
+To test locally:
+
+```bash
+python3 -m http.server 8080
+```
+
+Open `http://127.0.0.1:8080`.
+
+For GitHub Pages, commit `index.html` and `data/vnl_2026.json`, then enable Pages for the repository root branch in GitHub settings.
+
 ## Data
 
 The app loads schedule data in this order:

@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VNL 2026 Printable Schedule</title>
+  <meta name="description" content="Printable Volleyball Nations League 2026 schedule with timezone conversion for Men and Women.">
+  <style>
+    :root {
+      --ink: #171717;
+      --muted: #666;
+      --line: #d6d6d6;
+      --soft: #f2f4f7;
+      --accent: #006c67;
+      --highlight: #fff0a6;
+    }
+
+    @page {
+      size: A4;
+      margin: 8mm;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #ececec;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 9px;
+      letter-spacing: 0;
+    }
+
+    .app-shell {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: end;
+      padding: 12px;
+      margin: 0 0 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-size: 13px;
+    }
+
+    .controls label {
+      display: grid;
+      gap: 4px;
+      color: var(--muted);
+    }
+
+    .controls input,
+    .controls select,
+    .controls button {
+      height: 34px;
+      border: 1px solid #bdbdbd;
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      padding: 0 10px;
+    }
+
+    .controls .check {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      height: 34px;
+      color: var(--ink);
+    }
+
+    .controls .check input { height: auto; }
+
+    .controls button {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto;
+      padding: 8mm;
+      background: #fff;
+      box-shadow: 0 8px 24px rgb(0 0 0 / 18%);
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: start;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 7px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .meta {
+      min-width: 210px;
+      display: grid;
+      gap: 4px;
+      text-align: right;
+      font-size: 9px;
+      text-transform: uppercase;
+    }
+
+    .meta strong {
+      color: var(--muted);
+      margin-right: 8px;
+    }
+
+    .section { margin-top: 9px; }
+
+    .section-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      break-after: avoid;
+      padding: 4px 0;
+      border-bottom: 1px solid var(--ink);
+      margin-bottom: 5px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .section-title span {
+      color: var(--muted);
+      font-size: 8px;
+      text-transform: uppercase;
+    }
+
+    .days {
+      columns: 2;
+      column-gap: 10mm;
+    }
+
+    .day {
+      display: inline-block;
+      width: 100%;
+      break-inside: avoid;
+      margin: 0 0 8px;
+    }
+
+    .day-title {
+      padding: 2px 0 3px;
+      border-bottom: 1px solid var(--line);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .match {
+      display: grid;
+      grid-template-columns: 31px minmax(42px, 56px) 1fr minmax(68px, 88px);
+      gap: 5px;
+      align-items: baseline;
+      min-height: 18px;
+      padding: 3px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .match.highlighted { background: var(--highlight); }
+
+    .round {
+      color: var(--muted);
+      font-weight: 700;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .time {
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .teams {
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .venue {
+      color: var(--muted);
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    .footer {
+      margin-top: 10px;
+      padding-top: 6px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 8px;
+    }
+
+    .status {
+      color: var(--muted);
+      padding: 18px 0;
+      font-size: 13px;
+    }
+
+    @media screen and (max-width: 760px) {
+      .app-shell { padding: 10px; }
+      .page {
+        width: 100%;
+        min-height: auto;
+        padding: 12px;
+      }
+      .topbar {
+        grid-template-columns: 1fr;
+      }
+      .meta { text-align: left; }
+      .days { columns: 1; }
+    }
+
+    @media print {
+      body { background: #fff; }
+      .app-shell {
+        padding: 0;
+        max-width: none;
+      }
+      .controls { display: none; }
+      .page {
+        width: auto;
+        min-height: auto;
+        padding: 0;
+        box-shadow: none;
+      }
+      .section { break-inside: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <form class="controls" id="controls">
+      <label>
+        <span>Timezone</span>
+        <input id="timezone" name="timezone" value="Australia/Perth" list="timezones" placeholder="Country, city, or timezone">
+        <datalist id="timezones"></datalist>
+      </label>
+      <label class="check"><input type="checkbox" id="women" checked> Women</label>
+      <label class="check"><input type="checkbox" id="men" checked> Men</label>
+      <label>
+        <span>Highlight</span>
+        <select id="highlight">
+          <option value="">No highlight</option>
+        </select>
+      </label>
+      <button type="submit">Preview</button>
+      <button type="button" id="print">Print PDF</button>
+    </form>
+
+    <main class="page">
+      <header class="topbar">
+        <div>
+          <h1>Volleyball Nations League 2026</h1>
+          <div class="subtitle">Women and Men schedule &middot; local printable edition</div>
+        </div>
+        <div class="meta">
+          <div><strong>Timezone</strong><span id="timezone-label">Australia/Perth</span></div>
+          <div><strong>Highlight</strong><span id="highlight-label">No highlight</span></div>
+        </div>
+      </header>
+      <div id="schedule"><div class="status">Loading schedule...</div></div>
+      <footer class="footer">
+        <div id="footer-source">All times local &middot; Source loading</div>
+        <div id="footer-generated"></div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    const DATA_URL = "data/vnl_2026.json";
+    const DEFAULT_TIMEZONE = "Australia/Perth";
+
+    const TEAM_COUNTRY_CODES = {
+      "Argentina": "AR",
+      "Belgium": "BE",
+      "Brazil": "BR",
+      "Bulgaria": "BG",
+      "Canada": "CA",
+      "China": "CN",
+      "Cuba": "CU",
+      "Czech Republic": "CZ",
+      "Czechia": "CZ",
+      "Dominican Republic": "DO",
+      "France": "FR",
+      "Germany": "DE",
+      "Iran": "IR",
+      "Italy": "IT",
+      "Japan": "JP",
+      "Netherlands": "NL",
+      "Poland": "PL",
+      "Serbia": "RS",
+      "Slovenia": "SI",
+      "Thailand": "TH",
+      "Turkey": "TR",
+      "Turkiye": "TR",
+      "Ukraine": "UA",
+      "United States": "US",
+      "USA": "US"
+    };
+
+    const TIMEZONE_ALIASES = {
+      "awst": "Australia/Perth",
+      "perth": "Australia/Perth",
+      "western australia": "Australia/Perth",
+      "wa": "Australia/Perth",
+      "aest": "Australia/Sydney",
+      "australia": "Australia/Sydney",
+      "sydney": "Australia/Sydney",
+      "melbourne": "Australia/Melbourne",
+      "brisbane": "Australia/Brisbane",
+      "adelaide": "Australia/Adelaide",
+      "auckland": "Pacific/Auckland",
+      "new zealand": "Pacific/Auckland",
+      "indonesia": "Asia/Jakarta",
+      "jakarta": "Asia/Jakarta",
+      "bali": "Asia/Makassar",
+      "malaysia": "Asia/Kuala_Lumpur",
+      "kuala lumpur": "Asia/Kuala_Lumpur",
+      "philippines": "Asia/Manila",
+      "manila": "Asia/Manila",
+      "singapore": "Asia/Singapore",
+      "thailand": "Asia/Bangkok",
+      "bangkok": "Asia/Bangkok",
+      "vietnam": "Asia/Ho_Chi_Minh",
+      "china": "Asia/Shanghai",
+      "hong kong": "Asia/Hong_Kong",
+      "japan": "Asia/Tokyo",
+      "tokyo": "Asia/Tokyo",
+      "korea": "Asia/Seoul",
+      "south korea": "Asia/Seoul",
+      "uae": "Asia/Dubai",
+      "dubai": "Asia/Dubai",
+      "uk": "Europe/London",
+      "london": "Europe/London",
+      "france": "Europe/Paris",
+      "paris": "Europe/Paris",
+      "turkey": "Europe/Istanbul",
+      "turkiye": "Europe/Istanbul",
+      "istanbul": "Europe/Istanbul",
+      "brazil": "America/Sao_Paulo",
+      "brasilia": "America/Sao_Paulo",
+      "canada eastern": "America/Toronto",
+      "toronto": "America/Toronto",
+      "usa eastern": "America/New_York",
+      "new york": "America/New_York",
+      "usa central": "America/Chicago",
+      "chicago": "America/Chicago",
+      "usa pacific": "America/Los_Angeles",
+      "los angeles": "America/Los_Angeles",
+      "utc": "UTC"
+    };
+
+    const POPULAR_TIMEZONES = [
+      "Australia/Perth",
+      "Australia/Sydney",
+      "Pacific/Auckland",
+      "Asia/Bangkok",
+      "Asia/Ho_Chi_Minh",
+      "Asia/Jakarta",
+      "Asia/Kuala_Lumpur",
+      "Asia/Manila",
+      "Asia/Singapore",
+      "Asia/Shanghai",
+      "Asia/Tokyo",
+      "Asia/Seoul",
+      "Asia/Dubai",
+      "Europe/London",
+      "Europe/Paris",
+      "America/New_York",
+      "America/Chicago",
+      "America/Los_Angeles",
+      "UTC"
+    ];
+
+    let scheduleData = null;
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[char]));
+    }
+
+    function resolveTimezone(value) {
+      const trimmed = String(value || "").trim();
+      return TIMEZONE_ALIASES[trimmed.toLowerCase()] || trimmed || DEFAULT_TIMEZONE;
+    }
+
+    function assertTimezone(timezone) {
+      try {
+        new Intl.DateTimeFormat("en-US", { timeZone: timezone }).format(new Date());
+        return timezone;
+      } catch (_error) {
+        return DEFAULT_TIMEZONE;
+      }
+    }
+
+    function availableTimezones() {
+      const supported = Intl.supportedValuesOf ? Intl.supportedValuesOf("timeZone") : [];
+      const all = [...new Set([...POPULAR_TIMEZONES, ...supported])].sort((a, b) => {
+        const ap = POPULAR_TIMEZONES.includes(a) ? 0 : 1;
+        const bp = POPULAR_TIMEZONES.includes(b) ? 0 : 1;
+        return ap - bp || a.localeCompare(b);
+      });
+      return all;
+    }
+
+    function countryFlag(countryCode) {
+      const base = 0x1F1E6;
+      return countryCode.toUpperCase().split("").map(char =>
+        String.fromCodePoint(base + char.charCodeAt(0) - 65)
+      ).join("");
+    }
+
+    function teamLabel(team) {
+      const code = TEAM_COUNTRY_CODES[team];
+      return code ? `${countryFlag(code)} ${team}` : team;
+    }
+
+    function weekNumber(round) {
+      const match = String(round || "").match(/\bWeek\s+(\d+)\b/);
+      return match ? Number(match[1]) : null;
+    }
+
+    function poolLabel(round) {
+      const match = String(round || "").match(/\bP(\d+)\b/);
+      return match ? `P${match[1]}` : "";
+    }
+
+    function formatParts(date, timezone) {
+      const formatter = new Intl.DateTimeFormat("en-US", {
+        timeZone: timezone,
+        weekday: "short",
+        day: "numeric",
+        month: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+      });
+      const parts = Object.fromEntries(formatter.formatToParts(date).map(part => [part.type, part.value]));
+      return {
+        dayKey: new Intl.DateTimeFormat("en-CA", {
+          timeZone: timezone,
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit"
+        }).format(date),
+        dayLabel: `${parts.weekday} ${Number(parts.day)} ${parts.month}`,
+        timeLabel: `${parts.hour}:${parts.minute}`.replace(/^24:/, "00:")
+      };
+    }
+
+    function timezoneLabel(timezone) {
+      const now = new Date();
+      const name = new Intl.DateTimeFormat("en-US", {
+        timeZone: timezone,
+        timeZoneName: "short"
+      }).formatToParts(now).find(part => part.type === "timeZoneName")?.value || timezone;
+      const offset = new Intl.DateTimeFormat("en-US", {
+        timeZone: timezone,
+        timeZoneName: "longOffset"
+      }).formatToParts(now).find(part => part.type === "timeZoneName")?.value || "";
+      return offset ? `${timezone} (${name}, ${offset.replace("GMT", "UTC")})` : timezone;
+    }
+
+    function sectionTitle(week, competition) {
+      return `WK${week} ${competition.charAt(0).toUpperCase()}${competition.slice(1)}`;
+    }
+
+    function render() {
+      if (!scheduleData) return;
+
+      const timezoneInput = document.querySelector("#timezone");
+      const timezone = assertTimezone(resolveTimezone(timezoneInput.value));
+      timezoneInput.value = timezone;
+
+      const selectedCompetitions = [];
+      if (document.querySelector("#women").checked) selectedCompetitions.push("women");
+      if (document.querySelector("#men").checked) selectedCompetitions.push("men");
+      const highlight = document.querySelector("#highlight").value;
+      const highlightKey = highlight.toLowerCase();
+
+      document.querySelector("#timezone-label").textContent = timezoneLabel(timezone);
+      document.querySelector("#highlight-label").textContent = highlight || "No highlight";
+
+      const sections = [];
+      for (const week of [1, 2, 3]) {
+        for (const competition of selectedCompetitions) {
+          const matches = scheduleData.matches
+            .filter(match => match.competition === competition && weekNumber(match.round) === week)
+            .map(match => {
+              const date = new Date(match.starts_at_utc);
+              return { match, date, ...formatParts(date, timezone) };
+            })
+            .sort((a, b) => a.date - b.date);
+          if (matches.length) sections.push({ week, competition, matches });
+        }
+      }
+
+      const html = sections.map(section => {
+        const days = new Map();
+        for (const item of section.matches) {
+          if (!days.has(item.dayKey)) days.set(item.dayKey, []);
+          days.get(item.dayKey).push(item);
+        }
+        const daysHtml = [...days.values()].map(items => {
+          const rows = items.map(item => {
+            const match = item.match;
+            const isHighlighted = highlightKey && [match.team_a, match.team_b].some(team => team.toLowerCase() === highlightKey);
+            const venue = [match.city, match.country].filter(Boolean).join(", ");
+            return `
+              <div class="match${isHighlighted ? " highlighted" : ""}">
+                <div class="round">${escapeHtml(poolLabel(match.round))}</div>
+                <div class="time">${escapeHtml(item.timeLabel)}</div>
+                <div class="teams">${escapeHtml(teamLabel(match.team_a))} v ${escapeHtml(teamLabel(match.team_b))}</div>
+                <div class="venue">${escapeHtml(venue)}</div>
+              </div>
+            `;
+          }).join("");
+          return `
+            <article class="day">
+              <div class="day-title">${escapeHtml(items[0].dayLabel)}</div>
+              ${rows}
+            </article>
+          `;
+        }).join("");
+        return `
+          <section class="section">
+            <div class="section-title">
+              <h2>${escapeHtml(sectionTitle(section.week, section.competition))}</h2>
+              <span>${section.matches.length} matches</span>
+            </div>
+            <div class="days">${daysHtml}</div>
+          </section>
+        `;
+      }).join("");
+
+      document.querySelector("#schedule").innerHTML = html || '<div class="status">No matches for this selection.</div>';
+      document.querySelector("#footer-source").textContent =
+        `All times ${timezoneLabel(timezone)} \u00b7 Source: ${scheduleData.source_name} \u00b7 Data ${scheduleData.version}`;
+      document.querySelector("#footer-generated").textContent =
+        `Generated ${new Intl.DateTimeFormat("en-AU", { timeZone: timezone, dateStyle: "medium", timeStyle: "short" }).format(new Date())}`;
+    }
+
+    function setupControls() {
+      const datalist = document.querySelector("#timezones");
+      const aliasOptions = Object.entries(TIMEZONE_ALIASES)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([alias, target]) => `<option value="${escapeHtml(alias.replace(/\b\w/g, char => char.toUpperCase()))}">${escapeHtml(target)}</option>`);
+      const timezoneOptions = availableTimezones()
+        .map(zone => `<option value="${escapeHtml(zone)}">${escapeHtml(zone)}</option>`);
+      datalist.innerHTML = [...aliasOptions, ...timezoneOptions].join("");
+
+      document.querySelector("#controls").addEventListener("submit", event => {
+        event.preventDefault();
+        render();
+      });
+      for (const id of ["timezone", "women", "men", "highlight"]) {
+        document.querySelector(`#${id}`).addEventListener("change", render);
+      }
+      document.querySelector("#print").addEventListener("click", () => {
+        render();
+        window.print();
+      });
+    }
+
+    async function loadSchedule() {
+      setupControls();
+      const response = await fetch(`${DATA_URL}?v=${Date.now()}`);
+      if (!response.ok) throw new Error(`Could not load ${DATA_URL}`);
+      scheduleData = await response.json();
+      const teams = [...new Set(scheduleData.matches.flatMap(match => [match.team_a, match.team_b]))].sort();
+      document.querySelector("#highlight").innerHTML = '<option value="">No highlight</option>' +
+        teams.map(team => `<option value="${escapeHtml(team)}">${escapeHtml(team)}</option>`).join("");
+      render();
+    }
+
+    loadSchedule().catch(error => {
+      document.querySelector("#schedule").innerHTML =
+        `<div class="status">Could not load schedule data. Run this page through a web server or GitHub Pages.<br>${escapeHtml(error.message)}</div>`;
+    });
+  </script>
+</body>
+</html>
