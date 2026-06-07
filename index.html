@@ -17,7 +17,7 @@
 
     @page {
       size: A4;
-      margin: 8mm;
+      margin: 0;
     }
 
     * { box-sizing: border-box; }
@@ -246,18 +246,37 @@
     }
 
     @media print {
-      body { background: #fff; }
+      html,
+      body {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0;
+        padding: 0;
+        background: #fff;
+      }
+
+      * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
       .app-shell {
         padding: 0;
         max-width: none;
+        width: 210mm;
+        margin: 0;
       }
+
       .controls { display: none; }
+
       .page {
-        width: auto;
+        width: 210mm;
         min-height: auto;
-        padding: 0;
+        margin: 0;
+        padding: 7mm;
         box-shadow: none;
       }
+
       .section { break-inside: auto; }
     }
   </style>
