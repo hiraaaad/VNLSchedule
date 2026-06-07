@@ -85,6 +85,24 @@
       cursor: pointer;
     }
 
+    .support-link {
+      display: inline-flex;
+      align-items: center;
+      height: 34px;
+      border: 1px solid var(--accent);
+      border-radius: 6px;
+      padding: 0 10px;
+      color: var(--accent);
+      background: #fff;
+      font: inherit;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .support-link:hover {
+      background: var(--soft);
+    }
+
     .page {
       width: 210mm;
       min-height: 297mm;
@@ -269,6 +287,12 @@
 
       .controls { display: none; }
 
+      #bmc-wbtn,
+      #bmc-iframe-wrapper,
+      .bmc-btn-container {
+        display: none !important;
+      }
+
       .page {
         width: auto;
         min-height: auto;
@@ -299,6 +323,7 @@
       </label>
       <button type="submit">Preview</button>
       <button type="button" id="print">Print PDF</button>
+      <a class="support-link" href="https://www.buymeacoffee.com/hiraaaad" target="_blank" rel="noopener noreferrer">Buy me a coffee</a>
     </form>
 
     <main class="page">
@@ -636,6 +661,18 @@
       document.querySelector("#schedule").innerHTML =
         `<div class="status">Could not load schedule data. Run this page through a web server or GitHub Pages.<br>${escapeHtml(error.message)}</div>`;
     });
+  </script>
+  <script
+    data-name="BMC-Widget"
+    data-cfasync="false"
+    src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
+    data-id="hiraaaad"
+    data-description="Support me on Buy me a coffee!"
+    data-message=""
+    data-color="#006c67"
+    data-position="Right"
+    data-x_margin="18"
+    data-y_margin="18">
   </script>
 </body>
 </html>
