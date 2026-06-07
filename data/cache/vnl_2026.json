@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260607164450",
+  "version": "wikipedia-20260607194654",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-06-07T16:44:50.097749Z",
+  "generated_at": "2026-06-07T19:46:54.802465Z",
   "matches": [
     {
       "competition": "women",
@@ -446,11 +446,11 @@
       "starts_at_utc": "2026-06-07T15:00:00Z",
       "team_a": "Ukraine",
       "team_b": "France",
-      "score": null,
+      "score": "2-3",
       "venue": "Centre Videotron",
       "city": "Quebec City",
       "country": "Canada",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "women",
