@@ -17,7 +17,7 @@
 
     @page {
       size: A4;
-      margin: 0;
+      margin: 7mm;
     }
 
     * { box-sizing: border-box; }
@@ -248,8 +248,8 @@
     @media print {
       html,
       body {
-        width: 210mm;
-        min-height: 297mm;
+        width: auto;
+        min-height: auto;
         margin: 0;
         padding: 0;
         background: #fff;
@@ -263,17 +263,17 @@
       .app-shell {
         padding: 0;
         max-width: none;
-        width: 210mm;
+        width: auto;
         margin: 0;
       }
 
       .controls { display: none; }
 
       .page {
-        width: 210mm;
+        width: auto;
         min-height: auto;
         margin: 0;
-        padding: 7mm;
+        padding: 0;
         box-shadow: none;
       }
 
