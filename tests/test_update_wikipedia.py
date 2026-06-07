@@ -48,3 +48,13 @@ def test_changed_fields_describes_field_values():
     after = make_match(status="completed")
 
     assert changed_fields(before, after) == "status: scheduled -> completed"
+
+
+def test_diff_schedules_detects_changed_score():
+    existing = ScheduleData(matches=[make_match(score=None, status="scheduled")])
+    latest = ScheduleData(matches=[make_match(score="3-0", status="completed")])
+
+    diff = diff_schedules(existing, latest)
+
+    assert len(diff.changed) == 1
+    assert "score:  -> 3-0" in changed_fields(*diff.changed[0])

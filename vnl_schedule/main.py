@@ -121,6 +121,7 @@ def page_html(
     timezone_name: str,
     competitions: list[Competition],
     highlight: str,
+    show_results: bool = False,
     print_mode: bool = False,
 ) -> str:
     schedule = load_schedule()
@@ -134,6 +135,7 @@ def page_html(
         version=schedule.version,
         generated_at=schedule.generated_at,
         print_mode=print_mode,
+        show_results=show_results,
     )
     if print_mode:
         return schedule_html
@@ -142,6 +144,7 @@ def page_html(
         timezone_name=timezone_name,
         competitions=competitions,
         highlight=highlight,
+        show_results=show_results,
         teams=available_teams(schedule),
     )
     return schedule_html.replace("<!-- APP_CONTROLS -->", controls)
@@ -152,6 +155,7 @@ def render_controls(
     timezone_name: str,
     competitions: list[Competition],
     highlight: str,
+    show_results: bool,
     teams: list[str],
 ) -> str:
     selected = set(competitions)
@@ -170,6 +174,7 @@ def render_controls(
     )
     women_checked = "checked" if "women" in selected else ""
     men_checked = "checked" if "men" in selected else ""
+    results_checked = "checked" if show_results else ""
     return f"""
     <form class="controls" method="get" action="/">
       <label>
@@ -179,6 +184,7 @@ def render_controls(
       </label>
       <label class="check"><input type="checkbox" name="competition" value="women" {women_checked}> Women</label>
       <label class="check"><input type="checkbox" name="competition" value="men" {men_checked}> Men</label>
+      <label class="check"><input type="checkbox" name="show_results" value="1" {results_checked}> Show results</label>
       <label>
         <span>Highlight</span>
         <select name="highlight">
@@ -198,12 +204,14 @@ async def index(
     timezone_name: str = DEFAULT_TIMEZONE,
     competition: Annotated[list[str] | None, Query()] = None,
     highlight: str = "",
+    show_results: bool = False,
 ) -> str:
     timezone_name = assert_timezone(timezone_name)
     return page_html(
         timezone_name=timezone_name,
         competitions=parse_competitions(competition),
         highlight=highlight,
+        show_results=show_results,
     )
 
 
@@ -212,12 +220,14 @@ async def export_pdf(
     timezone_name: str = DEFAULT_TIMEZONE,
     competition: Annotated[list[str] | None, Query()] = None,
     highlight: str = "",
+    show_results: bool = False,
 ) -> Response:
     timezone_name = assert_timezone(timezone_name)
     html = page_html(
         timezone_name=timezone_name,
         competitions=parse_competitions(competition),
         highlight=highlight,
+        show_results=show_results,
         print_mode=True,
     )
     pdf = await html_to_pdf(html)

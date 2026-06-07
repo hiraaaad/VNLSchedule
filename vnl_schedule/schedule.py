@@ -79,6 +79,12 @@ class RenderedMatch:
         return f"{self.team_a_label} v {self.team_b_label}"
 
     @property
+    def result_label(self) -> str:
+        if self.match.score:
+            return f"{self.team_a_label} {self.match.score} {self.team_b_label}"
+        return self.matchup_label
+
+    @property
     def round_label(self) -> str:
         label = self.match.round or self.match.phase
         pool = re.search(r"\bP(\d+)\b", label)

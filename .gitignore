@@ -3,5 +3,6 @@
 __pycache__/
 .pytest_cache/
 *.pyc
-data/cache/
+data/cache/*
+!data/cache/vnl_2026.json
 out/

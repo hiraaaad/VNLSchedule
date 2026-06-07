@@ -89,6 +89,15 @@ def clean_team(value: str) -> str:
     return re.sub(r"\s+", " ", value).strip()
 
 
+def normalize_score(value: str) -> str | None:
+    normalized = value.strip().replace("\u2013", "-").replace("\u2212", "-")
+    if normalized in {"", "-"}:
+        return None
+    if re.fullmatch(r"\d+\s*-\s*\d+", normalized):
+        return re.sub(r"\s+", "", normalized)
+    return None
+
+
 def pool_number(title: str) -> int | None:
     match = re.search(r"Pool\s+(\d+)", title)
     return int(match.group(1)) if match else None
@@ -125,11 +134,11 @@ def parse_pool_matches(soup: BeautifulSoup, competition: Competition) -> list[Ma
                 continue
             starts_at_utc = parse_match_datetime(cells[0], cells[1], local_tz)
             team_a = clean_team(cells[2])
-            score = cells[3].strip()
+            score = normalize_score(cells[3])
             team_b = clean_team(cells[4])
             if starts_at_utc is None or not team_a or not team_b:
                 continue
-            status = "scheduled" if score in {"-", "\u2013", ""} else "completed"
+            status = "completed" if score else "scheduled"
             matches.append(
                 Match(
                     competition=competition,
@@ -139,6 +148,7 @@ def parse_pool_matches(soup: BeautifulSoup, competition: Competition) -> list[Ma
                     starts_at_utc=starts_at_utc,
                     team_a=team_a,
                     team_b=team_b,
+                    score=score,
                     venue=venue,
                     city=city,
                     country=country,

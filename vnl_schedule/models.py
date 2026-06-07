@@ -19,6 +19,7 @@ class Match(BaseModel):
     starts_at_utc: datetime
     team_a: str
     team_b: str
+    score: str | None = None
     venue: str = ""
     city: str = ""
     country: str = ""

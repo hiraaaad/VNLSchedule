@@ -66,6 +66,36 @@ def test_printed_html_uses_local_time_without_source_time():
     assert "UTC" in html
 
 
+def test_show_results_controls_score_rendering():
+    schedule = ScheduleData(
+        version="test",
+        source_name="Test source",
+        matches=[make_match(score="3-1", status="completed")],
+    )
+    sections = build_sections(schedule, "Australia/Perth", ["women"])
+
+    without_results = render_schedule_html(
+        sections=sections,
+        timezone_name="Australia/Perth",
+        source_name=schedule.source_name,
+        source_url=schedule.source_url,
+        version=schedule.version,
+        show_results=False,
+    )
+    with_results = render_schedule_html(
+        sections=sections,
+        timezone_name="Australia/Perth",
+        source_name=schedule.source_name,
+        source_url=schedule.source_url,
+        version=schedule.version,
+        show_results=True,
+    )
+
+    assert "Brazil v" in without_results
+    assert "3-1" not in without_results
+    assert "Brazil 3-1" in with_results
+
+
 def test_team_label_adds_country_flag():
     assert team_label("Brazil").endswith(" Brazil")
     assert team_label("Brazil") != "Brazil"
@@ -76,3 +106,9 @@ def test_round_label_compacts_week_text():
     rendered = convert_match(make_match(round="Week 2 P4"), "Australia/Perth")
 
     assert rendered.round_label == "P4"
+
+
+def test_result_label_uses_score_when_present():
+    rendered = convert_match(make_match(score="3-2"), "Australia/Perth")
+
+    assert "3-2" in rendered.result_label

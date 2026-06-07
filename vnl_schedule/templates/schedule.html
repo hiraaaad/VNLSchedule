@@ -315,7 +315,7 @@
                     <div class="match{% if item.is_highlighted %} highlighted{% endif %}">
                       <div class="round">{{ item.round_label }}</div>
                       <div class="time">{{ item.time_label }}</div>
-                      <div class="teams">{{ item.matchup_label }}</div>
+                      <div class="teams">{{ item.result_label if show_results else item.matchup_label }}</div>
                       <div class="venue">{{ item.venue_label }}</div>
                     </div>
                   {% endfor %}

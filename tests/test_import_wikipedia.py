@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 
-from vnl_schedule.import_wikipedia import parse_pool_matches, parse_utc_offset
+from vnl_schedule.import_wikipedia import normalize_score, parse_pool_matches, parse_utc_offset
 
 
 def test_parse_utc_offset_handles_unicode_minus():
@@ -27,4 +27,13 @@ def test_parse_pool_matches_from_wikipedia_shape():
     assert matches[0].team_b == "United States"
     assert matches[0].starts_at_utc.isoformat() == "2026-06-03T15:00:00+00:00"
     assert matches[0].status == "completed"
+    assert matches[0].score == "0-3"
     assert matches[1].status == "scheduled"
+    assert matches[1].score is None
+
+
+def test_normalize_score_handles_results_and_empty_scores():
+    assert normalize_score("3\u20131") == "3-1"
+    assert normalize_score(" 2 - 3 ") == "2-3"
+    assert normalize_score("\u2013") is None
+    assert normalize_score("") is None

@@ -383,6 +383,7 @@
       </label>
       <label class="check"><input type="checkbox" id="women" checked> Women</label>
       <label class="check"><input type="checkbox" id="men" checked> Men</label>
+      <label class="check"><input type="checkbox" id="show-results"> Show results</label>
       <label>
         <span>Highlight</span>
         <select id="highlight">
@@ -577,6 +578,15 @@
       return match ? `P${match[1]}` : "";
     }
 
+    function matchupLabel(match, showResults) {
+      const teamA = teamLabel(match.team_a);
+      const teamB = teamLabel(match.team_b);
+      if (showResults && match.score) {
+        return `${teamA} ${match.score} ${teamB}`;
+      }
+      return `${teamA} v ${teamB}`;
+    }
+
     function formatParts(date, timezone) {
       const formatter = new Intl.DateTimeFormat("en-US", {
         timeZone: timezone,
@@ -629,6 +639,7 @@
       if (document.querySelector("#men").checked) selectedCompetitions.push("men");
       const highlight = document.querySelector("#highlight").value;
       const highlightKey = highlight.toLowerCase();
+      const showResults = document.querySelector("#show-results").checked;
 
       document.querySelector("#timezone-label").textContent = timezoneLabel(timezone);
       document.querySelector("#highlight-label").textContent = highlight || "No highlight";
@@ -662,7 +673,7 @@
               <div class="match${isHighlighted ? " highlighted" : ""}">
                 <div class="round">${escapeHtml(poolLabel(match.round))}</div>
                 <div class="time">${escapeHtml(item.timeLabel)}</div>
-                <div class="teams">${escapeHtml(teamLabel(match.team_a))} v ${escapeHtml(teamLabel(match.team_b))}</div>
+                <div class="teams">${escapeHtml(matchupLabel(match, showResults))}</div>
                 <div class="venue">${escapeHtml(venue)}</div>
               </div>
             `;
@@ -705,7 +716,7 @@
         event.preventDefault();
         render();
       });
-      for (const id of ["timezone", "women", "men", "highlight"]) {
+      for (const id of ["timezone", "women", "men", "show-results", "highlight"]) {
         document.querySelector(`#${id}`).addEventListener("change", render);
       }
       document.querySelector("#print").addEventListener("click", () => {

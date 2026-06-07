@@ -44,6 +44,7 @@ def comparable_match(match: Match) -> dict[str, str]:
         "starts_at_utc": match.starts_at_utc.isoformat(),
         "team_a": match.team_a,
         "team_b": match.team_b,
+        "score": match.score or "",
         "venue": match.venue,
         "city": match.city,
         "country": match.country,

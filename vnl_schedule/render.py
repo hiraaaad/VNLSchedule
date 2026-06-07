@@ -32,6 +32,7 @@ def render_schedule_html(
     version: str,
     generated_at: datetime | None = None,
     print_mode: bool = False,
+    show_results: bool = False,
 ) -> str:
     template = env.get_template("schedule.html")
     generated = generated_at or datetime.now(ZoneInfo(timezone_name))
@@ -45,4 +46,5 @@ def render_schedule_html(
         version=version,
         generated_at=generated.astimezone(ZoneInfo(timezone_name)),
         print_mode=print_mode,
+        show_results=show_results,
     )

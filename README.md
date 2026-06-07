@@ -21,6 +21,8 @@ Open `http://127.0.0.1:8000`.
 
 The timezone field accepts IANA timezone names such as `Asia/Jakarta`, `Asia/Manila`, `Europe/Paris`, and `America/New_York`. It also accepts common country or city aliases such as `Indonesia`, `Philippines`, `Singapore`, `Japan`, `Perth`, and `Western Australia`.
 
+Use the `Show results` toggle to display completed match scores. Leave it off for a cleaner fixture-only printable schedule.
+
 ## Static GitHub Pages Version
 
 This repo also includes a static `index.html` that can run on GitHub Pages without Python. It loads `data/vnl_2026.json`, converts times in the browser, and uses the browser's Print dialog for PDF export.
@@ -70,6 +72,8 @@ python -m vnl_schedule.update_wikipedia --update
 
 The FastAPI app reads `data/cache/vnl_2026.json` first. The static GitHub Pages app reads `data/vnl_2026.json`.
 
+The repository also includes a GitHub Actions workflow that can update the schedule JSON automatically from Wikipedia. It runs daily and can also be started manually from the Actions tab. When Wikipedia has new results or fixture changes, the workflow commits updated JSON files back to the repository.
+
 ## Import Manual Data
 
 ```bash
@@ -80,6 +84,12 @@ CSV columns:
 
 ```text
 competition,phase,round,match_no,starts_at_utc,team_a,team_b,venue,city,country,status
+```
+
+Optional score column:
+
+```text
+competition,phase,round,match_no,starts_at_utc,team_a,team_b,score,venue,city,country,status
 ```
 
 ## Acknowledgements

@@ -1,0 +1,39 @@
+name: Update VNL Schedule
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "19 */3 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update-schedule:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Update schedule data
+        run: python -m vnl_schedule.update_wikipedia --update
+
+      - name: Commit schedule changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/vnl_2026.json data/cache/vnl_2026.json
+          if git diff --cached --quiet; then
+            echo "No schedule data changes to commit."
+            exit 0
+          fi
+          git commit -m "Update VNL schedule data from Wikipedia"
+          git push
