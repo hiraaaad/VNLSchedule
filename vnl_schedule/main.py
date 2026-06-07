@@ -188,6 +188,7 @@ def render_controls(
       </label>
       <button type="submit">Preview</button>
       <button type="submit" formaction="/pdf" formmethod="get">Export PDF</button>
+      <a class="support-link" href="https://www.buymeacoffee.com/hiraaaad" target="_blank" rel="noopener noreferrer">Buy me a coffee</a>
     </form>
     """
 

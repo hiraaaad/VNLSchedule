@@ -54,6 +54,22 @@ python -m vnl_schedule.import_wikipedia
 
 This writes `data/cache/vnl_2026.json`, which the app uses automatically on the next refresh.
 
+## Check For Wikipedia Schedule Updates
+
+Dry-run check:
+
+```bash
+python -m vnl_schedule.update_wikipedia
+```
+
+Apply changes to both the FastAPI cache and GitHub Pages JSON:
+
+```bash
+python -m vnl_schedule.update_wikipedia --update
+```
+
+The FastAPI app reads `data/cache/vnl_2026.json` first. The static GitHub Pages app reads `data/vnl_2026.json`.
+
 ## Import Manual Data
 
 ```bash
@@ -65,3 +81,11 @@ CSV columns:
 ```text
 competition,phase,round,match_no,starts_at_utc,team_a,team_b,venue,city,country,status
 ```
+
+## Acknowledgements
+
+This project was inspired by the excellent work in the `Kingdoggydog/worldcup2026` repository, which provides a simple, printable, and user-friendly platform for viewing the 2026 FIFA World Cup group stages, including features such as timezone adjustment and team highlighting.
+
+I used that project as a reference point when designing a similar experience for the VNL 2026 platform. The goal was not only to build a functional schedule viewer, but also to preserve the same spirit of simplicity, accessibility, and usefulness for fans who want a clean way to follow fixtures.
+
+Full credit and appreciation go to the original creator of `worldcup2026` for the idea, structure, and inspiration that helped shape this project.
