@@ -3,7 +3,7 @@ name: Update VNL Schedule
 on:
   workflow_dispatch:
   schedule:
-    - cron: "19 */3 * * *"
+    - cron: "19 */2 * * *"
 
 permissions:
   contents: write
