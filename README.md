@@ -48,31 +48,33 @@ The seed file contains starter matches cited from the official FIVB/Volleyball W
 
 The printed PDF intentionally shows only the selected local time. Source/original times may exist in JSON for conversion, but they are not rendered in the printable schedule.
 
-## Import Full Wikipedia Schedule
+## Import VolleyStation Schedule And Results
 
 ```bash
-python -m vnl_schedule.import_wikipedia
+python -m vnl_schedule.import_volleystation
 ```
 
 This writes `data/cache/vnl_2026.json`, which the app uses automatically on the next refresh.
 
-## Check For Wikipedia Schedule Updates
+## Check For VolleyStation Schedule Updates
 
 Dry-run check:
 
 ```bash
-python -m vnl_schedule.update_wikipedia
+python -m vnl_schedule.update_volleystation
 ```
 
 Apply changes to both the FastAPI cache and GitHub Pages JSON:
 
 ```bash
-python -m vnl_schedule.update_wikipedia --update
+python -m vnl_schedule.update_volleystation --update
 ```
 
 The FastAPI app reads `data/cache/vnl_2026.json` first. The static GitHub Pages app reads `data/vnl_2026.json`.
 
-The repository also includes a GitHub Actions workflow that can update the schedule JSON automatically from Wikipedia. It runs daily and can also be started manually from the Actions tab. When Wikipedia has new results or fixture changes, the workflow commits updated JSON files back to the repository.
+The repository also includes a GitHub Actions workflow that can update the schedule JSON automatically from VolleyStation. It runs every two hours and can also be started manually from the Actions tab. When VolleyStation has new results or fixture changes, the workflow commits updated JSON files back to the repository.
+
+The older Wikipedia importer is kept in the repository as an archived fallback, but it is no longer used by the normal update workflow.
 
 ## Import Manual Data
 
