@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 
 from vnl_schedule.import_volleystation import (
     page_represents_2026,
+    page_diagnostics,
     parse_home_upcoming_page,
     parse_results_page,
 )
@@ -74,3 +75,14 @@ def test_rejects_stale_2025_men_results_page_for_2026():
     html = "<main><h1>VNL 2025 Men</h1><a>Round 1 • No. 1 Cuba CUB Poland POL 3 0 View details</a></main>"
 
     assert page_represents_2026(html, "men") is False
+
+
+def test_page_diagnostics_summarizes_skipped_page():
+    html = "<html><head><title>Denied</title></head><body>Access denied. Please enable JavaScript.</body></html>"
+
+    diagnostics = page_diagnostics(html, url="https://example.test/results/")
+
+    assert "url=https://example.test/results/" in diagnostics
+    assert "title=Denied" in diagnostics
+    assert "has_access_denied=True" in diagnostics
+    assert "has_enable_javascript=True" in diagnostics

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -18,6 +19,7 @@ WOMEN_RESULTS_URL = "https://vnlw.volleystation.com/en/results/"
 MEN_RESULTS_URL = "https://vnlm.volleystation.com/en/results/"
 MEN_HOME_URL = "https://vnlm.volleystation.com/en/"
 DISPLAY_TIMEZONE = ZoneInfo("Europe/Warsaw")
+DEBUG_DIR_ENV = "VNL_DEBUG_DIR"
 
 TEAM_BY_ABBR = {
     "ARG": "Argentina",
@@ -98,7 +100,9 @@ def fetch_html(url: str) -> str:
     )
     try:
         with urlopen(request, timeout=30) as response:
-            return response.read().decode("utf-8")
+            html = response.read().decode("utf-8")
+            write_debug_artifacts(url=url, html=html, method="urllib")
+            return html
     except HTTPError as error:
         if error.code != 403:
             raise
@@ -119,8 +123,92 @@ def fetch_html_with_browser(url: str) -> str:
         page.goto(url, wait_until="domcontentloaded", timeout=45_000)
         page.wait_for_timeout(3_000)
         html = page.content()
+        write_debug_artifacts(
+            url=url,
+            html=html,
+            method="playwright",
+            final_url=page.url,
+            title=page.title(),
+            visible_text=page.locator("body").inner_text(timeout=5_000) if page.locator("body").count() else "",
+            screenshot=page.screenshot(full_page=True),
+        )
         browser.close()
         return html
+
+
+def debug_slug(url: str) -> str:
+    slug = re.sub(r"^https?://", "", url).strip("/")
+    slug = re.sub(r"[^a-zA-Z0-9]+", "-", slug).strip("-").lower()
+    return slug or "volleystation"
+
+
+def debug_dir() -> Path | None:
+    value = os.environ.get(DEBUG_DIR_ENV)
+    if not value:
+        return None
+    path = Path(value)
+    path.mkdir(parents=True, exist_ok=True)
+    return path
+
+
+def page_text(html: str) -> str:
+    return normalize_text(BeautifulSoup(html, "html.parser").get_text(" ", strip=True))
+
+
+def page_diagnostics(html: str, *, url: str) -> str:
+    soup = BeautifulSoup(html, "html.parser")
+    text = page_text(html)
+    title = normalize_text(soup.title.get_text(" ", strip=True)) if soup.title else ""
+    flags = [
+        f"url={url}",
+        f"title={title or '(none)'}",
+        f"html_chars={len(html)}",
+        f"text_chars={len(text)}",
+        f"has_vnl_2026={'VNL 2026' in text}",
+        f"has_vnl_2026_women={'VNL 2026 Women' in text}",
+        f"has_vnl_2026_men={'VNL 2026 Men' in text}",
+        f"has_cloudflare={'cloudflare' in html.casefold() or 'cloudflare' in text.casefold()}",
+        f"has_access_denied={'access denied' in text.casefold()}",
+        f"has_enable_javascript={'enable javascript' in text.casefold()}",
+        f"text_preview={text[:500]}",
+    ]
+    return " | ".join(flags)
+
+
+def write_debug_artifacts(
+    *,
+    url: str,
+    html: str,
+    method: str,
+    final_url: str = "",
+    title: str = "",
+    visible_text: str = "",
+    screenshot: bytes | None = None,
+) -> None:
+    path = debug_dir()
+    if path is None:
+        return
+    slug = debug_slug(url)
+    text = normalize_text(visible_text) if visible_text else page_text(html)
+    metadata = {
+        "url": url,
+        "final_url": final_url or url,
+        "method": method,
+        "title": title,
+        "html_chars": len(html),
+        "text_chars": len(text),
+        "has_vnl_2026": "VNL 2026" in text,
+        "has_vnl_2026_women": "VNL 2026 Women" in text,
+        "has_vnl_2026_men": "VNL 2026 Men" in text,
+        "has_cloudflare": "cloudflare" in html.casefold() or "cloudflare" in text.casefold(),
+        "has_access_denied": "access denied" in text.casefold(),
+        "has_enable_javascript": "enable javascript" in text.casefold(),
+    }
+    (path / f"{slug}.html").write_text(html, encoding="utf-8")
+    (path / f"{slug}.txt").write_text(text, encoding="utf-8")
+    (path / f"{slug}.json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
+    if screenshot:
+        (path / f"{slug}.png").write_bytes(screenshot)
 
 
 def write_schedule(schedule: ScheduleData, out_path: Path) -> None:
@@ -391,6 +479,7 @@ def import_volleystation(existing: ScheduleData | None = None) -> ScheduleData:
         sources.append(f"Women VolleyStation results ({len(women_matches)} matches)")
     else:
         sources.append("Women VolleyStation results skipped: page is not VNL 2026 Women")
+        sources.append(f"  Diagnostics: {page_diagnostics(women_html, url=WOMEN_RESULTS_URL)}")
 
     men_results_html = fetch_html(MEN_RESULTS_URL)
     if page_represents_2026(men_results_html, "men"):
@@ -399,6 +488,7 @@ def import_volleystation(existing: ScheduleData | None = None) -> ScheduleData:
         sources.append(f"Men VolleyStation results ({len(men_matches)} matches)")
     else:
         sources.append("Men VolleyStation results skipped: page is not VNL 2026 Men")
+        sources.append(f"  Diagnostics: {page_diagnostics(men_results_html, url=MEN_RESULTS_URL)}")
         men_home_html = fetch_html(MEN_HOME_URL)
         if page_represents_2026(men_home_html, "men", allow_home=True):
             men_home_matches = parse_home_upcoming_page(men_home_html, "men")
@@ -406,6 +496,7 @@ def import_volleystation(existing: ScheduleData | None = None) -> ScheduleData:
             sources.append(f"Men VolleyStation upcoming home ({len(men_home_matches)} matches)")
         else:
             sources.append("Men VolleyStation home skipped: page is not current VNL 2026")
+            sources.append(f"  Diagnostics: {page_diagnostics(men_home_html, url=MEN_HOME_URL)}")
 
     matches = merge_matches(existing, parsed_matches)
     print("VolleyStation source summary:")
