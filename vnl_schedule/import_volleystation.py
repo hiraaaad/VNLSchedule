@@ -408,6 +408,19 @@ def import_volleystation(existing: ScheduleData | None = None) -> ScheduleData:
             sources.append("Men VolleyStation home skipped: page is not current VNL 2026")
 
     matches = merge_matches(existing, parsed_matches)
+    print("VolleyStation source summary:")
+    for source in sources:
+        print(f"- {source}")
+    print(
+        "VolleyStation parsed matches: "
+        f"{sum(1 for match in parsed_matches if match.competition == 'women')} women, "
+        f"{sum(1 for match in parsed_matches if match.competition == 'men')} men"
+    )
+    print(
+        "Schedule output matches: "
+        f"{sum(1 for match in matches if match.competition == 'women')} women, "
+        f"{sum(1 for match in matches if match.competition == 'men')} men"
+    )
     return ScheduleData(
         version=f"volleystation-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}",
         source_name="VolleyStation VNL 2026 schedule and results",
