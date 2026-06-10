@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260610173926",
+  "version": "wikipedia-20260610204751",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-06-10T17:39:26.311764Z",
+  "generated_at": "2026-06-10T20:47:51.114528Z",
   "matches": [
     {
       "competition": "women",
@@ -1580,11 +1580,11 @@
       "starts_at_utc": "2026-06-10T16:00:00Z",
       "team_a": "Belgium",
       "team_b": "Bulgaria",
-      "score": null,
+      "score": "3-1",
       "venue": "Nilson Nelson Gymnasium",
       "city": "Brasilia",
       "country": "Brazil",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
