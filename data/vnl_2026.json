@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260610123019",
+  "version": "wikipedia-20260610173926",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-06-10T12:30:19.047298Z",
+  "generated_at": "2026-06-10T17:39:26.311764Z",
   "matches": [
     {
       "competition": "women",
@@ -1552,11 +1552,11 @@
       "starts_at_utc": "2026-06-10T12:00:00Z",
       "team_a": "Ukraine",
       "team_b": "Japan",
-      "score": null,
+      "score": "0-3",
       "venue": "Linyi Olympic Sports Park Gymnasium",
       "city": "Linyi",
       "country": "China",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
@@ -1566,11 +1566,11 @@
       "starts_at_utc": "2026-06-10T15:00:00Z",
       "team_a": "Turkey",
       "team_b": "United States",
-      "score": null,
+      "score": "1-3",
       "venue": "TD Place",
       "city": "Ottawa",
       "country": "Canada",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
