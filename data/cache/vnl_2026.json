@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260611110100",
+  "version": "wikipedia-20260611163203",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-06-11T11:01:00.391548Z",
+  "generated_at": "2026-06-11T16:32:03.486590Z",
   "matches": [
     {
       "competition": "women",
@@ -1664,11 +1664,11 @@
       "starts_at_utc": "2026-06-11T12:00:00Z",
       "team_a": "Slovenia",
       "team_b": "Poland",
-      "score": null,
+      "score": "3-2",
       "venue": "Linyi Olympic Sports Park Gymnasium",
       "city": "Linyi",
       "country": "China",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
