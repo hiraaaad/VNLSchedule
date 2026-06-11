@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260611163203",
+  "version": "wikipedia-20260611235645",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-06-11T16:32:03.486590Z",
+  "generated_at": "2026-06-11T23:56:45.107085Z",
   "matches": [
     {
       "competition": "women",
@@ -1678,11 +1678,11 @@
       "starts_at_utc": "2026-06-11T19:30:00Z",
       "team_a": "Bulgaria",
       "team_b": "Iran",
-      "score": null,
+      "score": "3-0",
       "venue": "Nilson Nelson Gymnasium",
       "city": "Brasilia",
       "country": "Brazil",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
