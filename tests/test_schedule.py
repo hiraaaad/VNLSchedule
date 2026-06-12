@@ -44,6 +44,21 @@ def test_sections_keep_women_before_men():
     assert [section.title for section in sections] == ["WK1 Women", "WK1 Men"]
 
 
+def test_sections_can_hide_completed_matches():
+    schedule = ScheduleData(
+        matches=[
+            make_match(score="3-1", status="completed"),
+            make_match(team_a="Poland", team_b="Cuba", status="scheduled"),
+        ]
+    )
+
+    sections = build_sections(schedule, "Australia/Perth", ["women"], hide_completed=True)
+    matches = list(sections[0].days.values())[0]
+
+    assert len(matches) == 1
+    assert matches[0].match.team_a == "Poland"
+
+
 def test_printed_html_uses_local_time_without_source_time():
     schedule = ScheduleData(
         version="test",

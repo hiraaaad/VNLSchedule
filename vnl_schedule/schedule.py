@@ -137,6 +137,7 @@ def build_sections(
     timezone_name: str,
     competitions: list[Competition],
     highlight: str = "",
+    hide_completed: bool = False,
 ) -> list[RenderSection]:
     sections: list[RenderSection] = []
     section_keys: list[tuple[int | None, Competition]] = []
@@ -155,6 +156,7 @@ def build_sections(
             convert_match(match, timezone_name, highlight)
             for match in schedule.matches
             if match.competition == competition and week_number(match.round) == week
+            and not (hide_completed and match.status == "completed")
         ]
         if not rendered:
             continue

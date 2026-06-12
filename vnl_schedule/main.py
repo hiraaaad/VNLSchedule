@@ -188,10 +188,11 @@ def page_html(
     competitions: list[Competition],
     highlight: str,
     show_results: bool = False,
+    hide_completed: bool = True,
     print_mode: bool = False,
 ) -> str:
     schedule = load_schedule()
-    sections = build_sections(schedule, timezone_name, competitions, highlight)
+    sections = build_sections(schedule, timezone_name, competitions, highlight, hide_completed)
     schedule_html = render_schedule_html(
         sections=sections,
         timezone_name=timezone_name,
@@ -211,6 +212,7 @@ def page_html(
         competitions=competitions,
         highlight=highlight,
         show_results=show_results,
+        hide_completed=hide_completed,
         teams=available_teams(schedule),
     )
     return schedule_html.replace("<!-- APP_CONTROLS -->", controls)
@@ -222,6 +224,7 @@ def render_controls(
     competitions: list[Competition],
     highlight: str,
     show_results: bool,
+    hide_completed: bool,
     teams: list[str],
 ) -> str:
     selected = set(competitions)
@@ -241,6 +244,7 @@ def render_controls(
     women_checked = "checked" if "women" in selected else ""
     men_checked = "checked" if "men" in selected else ""
     results_checked = "checked" if show_results else ""
+    hide_completed_checked = "checked" if hide_completed else ""
     return f"""
     <form class="controls" method="get" action="/">
       <label>
@@ -251,6 +255,7 @@ def render_controls(
       <label class="check"><input type="checkbox" name="competition" value="women" {women_checked}> Women</label>
       <label class="check"><input type="checkbox" name="competition" value="men" {men_checked}> Men</label>
       <label class="check"><input type="checkbox" name="show_results" value="1" {results_checked}> Show results</label>
+      <label class="check"><input type="checkbox" name="hide_completed" value="1" {hide_completed_checked}> Hide completed</label>
       <label>
         <span>Highlight</span>
         <select name="highlight">
@@ -271,6 +276,7 @@ async def index(
     competition: Annotated[list[str] | None, Query()] = None,
     highlight: str = "",
     show_results: bool = False,
+    hide_completed: bool = True,
 ) -> str:
     timezone_name = assert_timezone(timezone_name)
     return page_html(
@@ -278,6 +284,7 @@ async def index(
         competitions=parse_competitions(competition),
         highlight=highlight,
         show_results=show_results,
+        hide_completed=hide_completed,
     )
 
 
@@ -287,6 +294,7 @@ async def export_pdf(
     competition: Annotated[list[str] | None, Query()] = None,
     highlight: str = "",
     show_results: bool = False,
+    hide_completed: bool = True,
 ) -> Response:
     timezone_name = assert_timezone(timezone_name)
     html = page_html(
@@ -294,6 +302,7 @@ async def export_pdf(
         competitions=parse_competitions(competition),
         highlight=highlight,
         show_results=show_results,
+        hide_completed=hide_completed,
         print_mode=True,
     )
     pdf = await html_to_pdf(html)

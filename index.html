@@ -384,6 +384,7 @@
       <label class="check"><input type="checkbox" id="women" checked> Women</label>
       <label class="check"><input type="checkbox" id="men" checked> Men</label>
       <label class="check"><input type="checkbox" id="show-results"> Show results</label>
+      <label class="check"><input type="checkbox" id="hide-completed" checked> Hide completed</label>
       <label>
         <span>Highlight</span>
         <select id="highlight">
@@ -711,6 +712,7 @@
       const highlight = document.querySelector("#highlight").value;
       const highlightKey = highlight.toLowerCase();
       const showResults = document.querySelector("#show-results").checked;
+      const hideCompleted = document.querySelector("#hide-completed").checked;
 
       document.querySelector("#timezone-label").textContent = timezoneLabel(timezone);
       document.querySelector("#highlight-label").textContent = highlight || "No highlight";
@@ -720,6 +722,7 @@
         for (const competition of selectedCompetitions) {
           const matches = scheduleData.matches
             .filter(match => match.competition === competition && weekNumber(match.round) === week)
+            .filter(match => !(hideCompleted && match.status === "completed"))
             .map(match => {
               const date = new Date(match.starts_at_utc);
               return { match, date, ...formatParts(date, timezone) };
@@ -787,7 +790,7 @@
         event.preventDefault();
         render();
       });
-      for (const id of ["timezone", "women", "men", "show-results", "highlight"]) {
+      for (const id of ["timezone", "women", "men", "show-results", "hide-completed", "highlight"]) {
         document.querySelector(`#${id}`).addEventListener("change", render);
       }
       document.querySelector("#print").addEventListener("click", () => {

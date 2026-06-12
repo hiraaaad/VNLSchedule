@@ -21,7 +21,7 @@ Open `http://127.0.0.1:8000`.
 
 The timezone field accepts IANA timezone names such as `Asia/Jakarta`, `Asia/Manila`, `Europe/Paris`, and `America/New_York`. It also accepts common country or city aliases such as `Indonesia`, `Philippines`, `Singapore`, `Japan`, `Perth`, and `Western Australia`.
 
-Use the `Show results` toggle to display completed match scores. Leave it off for a cleaner fixture-only printable schedule.
+Use the `Show results` toggle to display completed match scores. `Hide completed` is on by default; turn it off to include finished matches.
 
 ## Static GitHub Pages Version
 
