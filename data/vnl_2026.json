@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260614200113",
+  "version": "wikipedia-20260614214516",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-06-14T20:01:13.742989Z",
+  "generated_at": "2026-06-14T21:45:16.865425Z",
   "matches": [
     {
       "competition": "women",
@@ -1986,11 +1986,11 @@
       "starts_at_utc": "2026-06-14T18:30:00Z",
       "team_a": "Canada",
       "team_b": "Turkey",
-      "score": null,
+      "score": "2-3",
       "venue": "TD Place",
       "city": "Ottawa",
       "country": "Canada",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
