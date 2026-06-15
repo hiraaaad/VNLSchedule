@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260614214516",
+  "version": "wikipedia-20260615053138",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-06-14T21:45:16.865425Z",
+  "generated_at": "2026-06-15T05:31:38.391838Z",
   "matches": [
     {
       "competition": "women",
@@ -2000,11 +2000,11 @@
       "starts_at_utc": "2026-06-14T21:00:00Z",
       "team_a": "Brazil",
       "team_b": "Argentina",
-      "score": null,
+      "score": "3-2",
       "venue": "Nilson Nelson Gymnasium",
       "city": "Brasilia",
       "country": "Brazil",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
@@ -2014,11 +2014,11 @@
       "starts_at_utc": "2026-06-14T22:00:00Z",
       "team_a": "United States",
       "team_b": "Italy",
-      "score": null,
+      "score": "2-3",
       "venue": "TD Place",
       "city": "Ottawa",
       "country": "Canada",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
