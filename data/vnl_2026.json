@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260617111919",
+  "version": "wikipedia-20260617160837",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-06-17T11:19:19.923033Z",
+  "generated_at": "2026-06-17T16:08:37.413222Z",
   "matches": [
     {
       "competition": "women",
@@ -558,11 +558,11 @@
       "starts_at_utc": "2026-06-17T09:30:00Z",
       "team_a": "Germany",
       "team_b": "China",
-      "score": null,
+      "score": "2-3",
       "venue": "Ankara Arena",
       "city": "Ankara",
       "country": "Turkey",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "women",
@@ -572,11 +572,11 @@
       "starts_at_utc": "2026-06-17T10:00:00Z",
       "team_a": "Bulgaria",
       "team_b": "Poland",
-      "score": null,
+      "score": "0-3",
       "venue": "Indoor Stadium Huamark",
       "city": "Bangkok",
       "country": "Thailand",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "women",
@@ -586,11 +586,11 @@
       "starts_at_utc": "2026-06-17T12:00:00Z",
       "team_a": "Japan",
       "team_b": "Serbia",
-      "score": null,
+      "score": "3-2",
       "venue": "PhilSports Arena",
       "city": "Pasig",
       "country": "Philippines",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "women",
@@ -600,11 +600,11 @@
       "starts_at_utc": "2026-06-17T13:00:00Z",
       "team_a": "France",
       "team_b": "Brazil",
-      "score": null,
+      "score": "0-3",
       "venue": "Ankara Arena",
       "city": "Ankara",
       "country": "Turkey",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "women",
@@ -614,11 +614,11 @@
       "starts_at_utc": "2026-06-17T13:30:00Z",
       "team_a": "Thailand",
       "team_b": "Ukraine",
-      "score": null,
+      "score": "2-3",
       "venue": "Indoor Stadium Huamark",
       "city": "Bangkok",
       "country": "Thailand",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "women",
