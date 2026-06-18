@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260617183726",
+  "version": "wikipedia-20260618105012",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-06-17T18:37:26.536391Z",
+  "generated_at": "2026-06-18T10:50:12.422261Z",
   "matches": [
     {
       "competition": "women",
@@ -642,11 +642,11 @@
       "starts_at_utc": "2026-06-18T08:00:00Z",
       "team_a": "Czech Republic",
       "team_b": "United States",
-      "score": null,
+      "score": "0-3",
       "venue": "PhilSports Arena",
       "city": "Pasig",
       "country": "Philippines",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "women",
