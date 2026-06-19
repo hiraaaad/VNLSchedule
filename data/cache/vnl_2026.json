@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260618183801",
+  "version": "wikipedia-20260619105913",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-06-18T18:38:01.703409Z",
+  "generated_at": "2026-06-19T10:59:13.855630Z",
   "matches": [
     {
       "competition": "women",
@@ -726,11 +726,11 @@
       "starts_at_utc": "2026-06-19T08:00:00Z",
       "team_a": "Dominican Republic",
       "team_b": "Serbia",
-      "score": null,
+      "score": "0-3",
       "venue": "PhilSports Arena",
       "city": "Pasig",
       "country": "Philippines",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "women",
