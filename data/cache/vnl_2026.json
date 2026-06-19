@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260619154508",
+  "version": "wikipedia-20260619181111",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-06-19T15:45:08.206385Z",
+  "generated_at": "2026-06-19T18:11:11.979550Z",
   "matches": [
     {
       "competition": "women",
@@ -782,11 +782,11 @@
       "starts_at_utc": "2026-06-19T13:30:00Z",
       "team_a": "Bulgaria",
       "team_b": "Canada",
-      "score": null,
+      "score": "1-3",
       "venue": "Indoor Stadium Huamark",
       "city": "Bangkok",
       "country": "Thailand",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "women",
@@ -796,11 +796,11 @@
       "starts_at_utc": "2026-06-19T16:30:00Z",
       "team_a": "Belgium",
       "team_b": "Germany",
-      "score": null,
+      "score": "0-3",
       "venue": "Ankara Arena",
       "city": "Ankara",
       "country": "Turkey",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "women",
