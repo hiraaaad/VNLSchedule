@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260619105913",
+  "version": "wikipedia-20260619154508",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-06-19T10:59:13.855630Z",
+  "generated_at": "2026-06-19T15:45:08.206385Z",
   "matches": [
     {
       "competition": "women",
@@ -740,11 +740,11 @@
       "starts_at_utc": "2026-06-19T10:00:00Z",
       "team_a": "Ukraine",
       "team_b": "Netherlands",
-      "score": null,
+      "score": "0-3",
       "venue": "Indoor Stadium Huamark",
       "city": "Bangkok",
       "country": "Thailand",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "women",
@@ -754,11 +754,11 @@
       "starts_at_utc": "2026-06-19T12:00:00Z",
       "team_a": "Japan",
       "team_b": "Czech Republic",
-      "score": null,
+      "score": "3-0",
       "venue": "PhilSports Arena",
       "city": "Pasig",
       "country": "Philippines",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "women",
@@ -768,11 +768,11 @@
       "starts_at_utc": "2026-06-19T13:00:00Z",
       "team_a": "France",
       "team_b": "China",
-      "score": null,
+      "score": "0-3",
       "venue": "Ankara Arena",
       "city": "Ankara",
       "country": "Turkey",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "women",
