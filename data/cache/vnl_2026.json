@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260619181111",
+  "version": "wikipedia-20260620094533",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-06-19T18:11:11.979550Z",
+  "generated_at": "2026-06-20T09:45:33.559324Z",
   "matches": [
     {
       "competition": "women",
@@ -810,11 +810,11 @@
       "starts_at_utc": "2026-06-20T08:00:00Z",
       "team_a": "United States",
       "team_b": "Italy",
-      "score": null,
+      "score": "3-0",
       "venue": "PhilSports Arena",
       "city": "Pasig",
       "country": "Philippines",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "women",
