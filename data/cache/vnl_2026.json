@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260624201356",
+  "version": "wikipedia-20260624214956",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-06-24T20:13:56.447464Z",
+  "generated_at": "2026-06-24T21:49:56.342031Z",
   "matches": [
     {
       "competition": "women",
@@ -2112,11 +2112,11 @@
       "starts_at_utc": "2026-06-24T18:00:00Z",
       "team_a": "Poland",
       "team_b": "Belgium",
-      "score": null,
+      "score": "3-2",
       "venue": "Gliwice Arena",
       "city": "Gliwice",
       "country": "Poland",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
@@ -2126,11 +2126,11 @@
       "starts_at_utc": "2026-06-24T18:30:00Z",
       "team_a": "France",
       "team_b": "Iran",
-      "score": null,
+      "score": "3-2",
       "venue": "Co'met Arena",
       "city": "Orleans",
       "country": "France",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
