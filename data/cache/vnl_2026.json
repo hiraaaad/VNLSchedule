@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260626162940",
+  "version": "wikipedia-20260626201356",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-06-26T16:29:40.603213Z",
+  "generated_at": "2026-06-26T20:13:56.235876Z",
   "matches": [
     {
       "competition": "women",
@@ -2252,11 +2252,11 @@
       "starts_at_utc": "2026-06-26T14:30:00Z",
       "team_a": "Ukraine",
       "team_b": "Canada",
-      "score": null,
+      "score": "3-1",
       "venue": "Stozice Arena",
       "city": "Ljubljana",
       "country": "Slovenia",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
@@ -2266,11 +2266,11 @@
       "starts_at_utc": "2026-06-26T15:00:00Z",
       "team_a": "Iran",
       "team_b": "Japan",
-      "score": null,
+      "score": "2-3",
       "venue": "Co'met Arena",
       "city": "Orleans",
       "country": "France",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
@@ -2280,11 +2280,11 @@
       "starts_at_utc": "2026-06-26T18:00:00Z",
       "team_a": "Belgium",
       "team_b": "Germany",
-      "score": null,
+      "score": "1-3",
       "venue": "Gliwice Arena",
       "city": "Gliwice",
       "country": "Poland",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
@@ -2294,11 +2294,11 @@
       "starts_at_utc": "2026-06-26T18:00:00Z",
       "team_a": "Brazil",
       "team_b": "Italy",
-      "score": null,
+      "score": "1-3",
       "venue": "Stozice Arena",
       "city": "Ljubljana",
       "country": "Slovenia",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
