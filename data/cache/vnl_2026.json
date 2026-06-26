@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260625234752",
+  "version": "wikipedia-20260626162940",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-06-25T23:47:52.322710Z",
+  "generated_at": "2026-06-26T16:29:40.603213Z",
   "matches": [
     {
       "competition": "women",
@@ -2238,11 +2238,11 @@
       "starts_at_utc": "2026-06-26T14:30:00Z",
       "team_a": "China",
       "team_b": "Argentina",
-      "score": null,
+      "score": "0-3",
       "venue": "Gliwice Arena",
       "city": "Gliwice",
       "country": "Poland",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
