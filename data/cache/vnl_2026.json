@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260626214344",
+  "version": "wikipedia-20260627173334",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-06-26T21:43:44.706243Z",
+  "generated_at": "2026-06-27T17:33:34.351296Z",
   "matches": [
     {
       "competition": "women",
@@ -2322,11 +2322,11 @@
       "starts_at_utc": "2026-06-27T14:30:00Z",
       "team_a": "Bulgaria",
       "team_b": "Canada",
-      "score": null,
+      "score": "3-2",
       "venue": "Stozice Arena",
       "city": "Ljubljana",
       "country": "Slovenia",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
@@ -2350,11 +2350,11 @@
       "starts_at_utc": "2026-06-27T15:00:00Z",
       "team_a": "Poland",
       "team_b": "Germany",
-      "score": null,
+      "score": "3-1",
       "venue": "Gliwice Arena",
       "city": "Gliwice",
       "country": "Poland",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
