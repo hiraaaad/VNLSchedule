@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260709153724",
+  "version": "wikipedia-20260709181317",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-07-09T15:37:24.090052Z",
+  "generated_at": "2026-07-09T18:13:17.165374Z",
   "matches": [
     {
       "competition": "women",
@@ -1202,11 +1202,11 @@
       "starts_at_utc": "2026-07-09T14:30:00Z",
       "team_a": "Czech Republic",
       "team_b": "Netherlands",
-      "score": null,
+      "score": "0-3",
       "venue": "Belgrade Arena",
       "city": "Belgrade",
       "country": "Serbia",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "women",
