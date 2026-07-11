@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260711112722",
+  "version": "wikipedia-20260711135741",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-07-11T11:27:22.926392Z",
+  "generated_at": "2026-07-11T13:57:41.212102Z",
   "matches": [
     {
       "competition": "women",
@@ -1342,11 +1342,11 @@
       "starts_at_utc": "2026-07-11T10:20:00Z",
       "team_a": "Japan",
       "team_b": "Turkey",
-      "score": null,
+      "score": "1-3",
       "venue": "Asue Arena Osaka",
       "city": "Osaka",
       "country": "Japan",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "women",
