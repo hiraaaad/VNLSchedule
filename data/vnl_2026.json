@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260711135741",
+  "version": "wikipedia-20260711152558",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-07-11T13:57:41.212102Z",
+  "generated_at": "2026-07-11T15:25:58.761833Z",
   "matches": [
     {
       "competition": "women",
@@ -1356,11 +1356,11 @@
       "starts_at_utc": "2026-07-11T12:00:00Z",
       "team_a": "China",
       "team_b": "Dominican Republic",
-      "score": null,
+      "score": "1-3",
       "venue": "Kai Tak Arena",
       "city": "Hong Kong",
       "country": "China",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "women",
