@@ -448,6 +448,7 @@
   <script>
     const DATA_URL = "data/vnl_2026.json";
     const DEFAULT_TIMEZONE = "Australia/Perth";
+    const TIMEZONE_STORAGE_KEY = "vnl-schedule-timezone";
 
     const TEAM_COUNTRY_CODES = {
       "Argentina": "AR",
@@ -648,6 +649,22 @@
       }
     }
 
+    function loadTimezonePreference() {
+      try {
+        return assertTimezone(localStorage.getItem(TIMEZONE_STORAGE_KEY) || DEFAULT_TIMEZONE);
+      } catch (_error) {
+        return DEFAULT_TIMEZONE;
+      }
+    }
+
+    function saveTimezonePreference(timezone) {
+      try {
+        localStorage.setItem(TIMEZONE_STORAGE_KEY, timezone);
+      } catch (_error) {
+        // Browser storage is optional; the current page still uses the selected timezone.
+      }
+    }
+
     function availableTimezones() {
       const supported = Intl.supportedValuesOf ? Intl.supportedValuesOf("timeZone") : [];
       const all = [...new Set([...POPULAR_TIMEZONES, ...supported])].sort((a, b) => {
@@ -744,6 +761,7 @@
       const timezoneInput = document.querySelector("#timezone");
       const timezone = assertTimezone(resolveTimezone(timezoneInput.value));
       timezoneInput.value = timezone;
+      saveTimezonePreference(timezone);
 
       const selectedCompetitions = [];
       if (document.querySelector("#women").checked) selectedCompetitions.push("women");
@@ -852,6 +870,7 @@
 
     async function loadSchedule() {
       setupControls();
+      document.querySelector("#timezone").value = loadTimezonePreference();
       const response = await fetch(`${DATA_URL}?v=${Date.now()}`);
       if (!response.ok) throw new Error(`Could not load ${DATA_URL}`);
       scheduleData = await response.json();

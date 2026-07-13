@@ -292,9 +292,22 @@
 
     .match-label span:last-child { color: #8b8881; }
 
+    .advanced-card .match-label,
+    .medal-card .match-label {
+      display: grid;
+      gap: 2px;
+    }
+
+    .advanced-card .match-label span:last-child,
+    .medal-card .match-label span:last-child {
+      font-size: 6.5px;
+      line-height: 1.2;
+      text-align: left;
+    }
+
     .team-row {
       display: grid;
-      grid-template-columns: 23px 30px minmax(0, 1fr);
+      grid-template-columns: 30px minmax(0, 1fr);
       gap: 5px;
       align-items: center;
       min-height: 42px;
@@ -412,6 +425,15 @@
       color: #77746e;
       font-size: 9px;
       line-height: 1.45;
+      text-align: center;
+    }
+
+    .bracket-status {
+      display: grid;
+      min-height: 520px;
+      place-items: center;
+      color: var(--muted);
+      font-size: 13px;
       text-align: center;
     }
 
@@ -549,6 +571,7 @@
         <div class="event-meta">
           <strong id="event-location">Macao, China</strong>
           <span id="event-dates">22&ndash;26 July 2026</span>
+          <span id="event-timezone">Times: Australia/Perth</span>
         </div>
       </header>
 
@@ -562,42 +585,46 @@
       <div class="mobile-bracket" id="mobile-bracket"></div>
 
       <p class="page-note">
-        Quarterfinal teams are shown from the confirmed Final 8 seeding. Match times, scores, and advancing teams will be added when final-phase fixtures are imported.
+        Teams, fixtures, match dates, and results are loaded from the same imported schedule data used by the Schedule page.
       </p>
     </main>
   </div>
 
   <script>
-    const BRACKETS = {
+    (() => {
+    const DATA_URL = "data/vnl_2026.json";
+    const DEFAULT_TIMEZONE = "Australia/Perth";
+    const TIMEZONE_STORAGE_KEY = "vnl-schedule-timezone";
+    const EVENT_META = {
       women: {
         label: "Women’s road to the championship",
         location: "Macao, China",
-        dates: "22–26 July 2026",
-        quarterfinals: [
-          { id: "QF1", teamA: { seed: 1, name: "United States", code: "US" }, teamB: { seed: 8, name: "China", code: "CN" } },
-          { id: "QF4", teamA: { seed: 4, name: "Türkiye", code: "TR" }, teamB: { seed: 5, name: "Canada", code: "CA" } },
-          { id: "QF2", teamA: { seed: 2, name: "Italy", code: "IT" }, teamB: { seed: 7, name: "Netherlands", code: "NL" } },
-          { id: "QF3", teamA: { seed: 3, name: "Brazil", code: "BR" }, teamB: { seed: 6, name: "Japan", code: "JP" } }
-        ]
+        dates: "22–26 July 2026"
       },
       men: {
         label: "Men’s road to the championship",
         location: "Ningbo, China",
-        dates: "29 July–2 August 2026",
-        quarterfinals: [
-          { id: "QF1", teamA: { seed: 1, name: "1st ranked" }, teamB: { seed: 8, name: "8th ranked" } },
-          { id: "QF4", teamA: { seed: 4, name: "4th ranked" }, teamB: { seed: 5, name: "5th ranked" } },
-          { id: "QF2", teamA: { seed: 2, name: "2nd ranked" }, teamB: { seed: 7, name: "7th ranked" } },
-          { id: "QF3", teamA: { seed: 3, name: "3rd ranked" }, teamB: { seed: 6, name: "6th ranked" } }
-        ]
+        dates: "29 July–2 August 2026"
       }
     };
 
+    const TEAM_COUNTRY_CODES = {
+      Argentina: "AR", Belgium: "BE", Brazil: "BR", Bulgaria: "BG", Canada: "CA",
+      China: "CN", Cuba: "CU", Czechia: "CZ", "Czech Republic": "CZ",
+      "Dominican Republic": "DO", France: "FR", Germany: "DE", Iran: "IR",
+      Italy: "IT", Japan: "JP", Netherlands: "NL", Poland: "PL", Serbia: "RS",
+      Slovenia: "SI", Thailand: "TH", Turkey: "TR", "Türkiye": "TR", Ukraine: "UA",
+      "United States": "US", USA: "US"
+    };
+
+    const SLOT_LAYOUTS = [
+      { id: "QF1", node: [10, 24], semifinal: "SF1" },
+      { id: "QF2", node: [10, 72], semifinal: "SF1" },
+      { id: "QF3", node: [90, 24], semifinal: "SF2" },
+      { id: "QF4", node: [90, 72], semifinal: "SF2" }
+    ];
+
     const POSITIONS = {
-      QF1: { node: [10, 24], semifinal: "SF1" },
-      QF4: { node: [10, 72], semifinal: "SF1" },
-      QF2: { node: [90, 24], semifinal: "SF2" },
-      QF3: { node: [90, 72], semifinal: "SF2" },
       SF1: [32, 48],
       SF2: [68, 48],
       GOLD: [50, 34],
@@ -605,6 +632,9 @@
     };
 
     let selectedCompetition = "women";
+    let scheduleData = null;
+    let activeBracket = null;
+    let activeTimezone = DEFAULT_TIMEZONE;
 
     function escapeHtml(value) {
       return String(value).replace(/[&<>"']/g, character => ({
@@ -612,54 +642,93 @@
       }[character]));
     }
 
-    function flagEmoji(code) {
-      if (!code) return "•";
+    function flagEmoji(teamName) {
+      const code = TEAM_COUNTRY_CODES[teamName];
+      if (!code) return "?";
       return code.toUpperCase().split("").map(character =>
         String.fromCodePoint(0x1F1E6 + character.charCodeAt(0) - 65)
       ).join("");
+    }
+
+    function isTbd(teamName) {
+      return !teamName || teamName.toUpperCase() === "TBD";
+    }
+
+    function assertTimezone(timezone) {
+      try {
+        new Intl.DateTimeFormat("en-US", { timeZone: timezone }).format(new Date());
+        return timezone;
+      } catch (_error) {
+        return DEFAULT_TIMEZONE;
+      }
+    }
+
+    function loadTimezonePreference() {
+      try {
+        return assertTimezone(localStorage.getItem(TIMEZONE_STORAGE_KEY) || DEFAULT_TIMEZONE);
+      } catch (_error) {
+        return DEFAULT_TIMEZONE;
+      }
+    }
+
+    function formatMatchDate(match) {
+      if (!match?.starts_at_utc) return "TBD";
+      const parts = Object.fromEntries(new Intl.DateTimeFormat("en-AU", {
+        timeZone: activeTimezone,
+        weekday: "short",
+        day: "numeric",
+        month: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+      }).formatToParts(new Date(match.starts_at_utc)).map(part => [part.type, part.value]));
+      const time = `${parts.hour}:${parts.minute}`.replace(/^24:/, "00:");
+      return `${parts.weekday} ${Number(parts.day)} ${parts.month} · ${time}`;
+    }
+
+    function matchMeta(match) {
+      const date = formatMatchDate(match);
+      return match?.score ? `${date} · ${match.score}` : date;
     }
 
     function nodeStyle(position) {
       return `left:${position[0]}%;top:${position[1]}%`;
     }
 
-    function teamRow(team) {
-      return `<div class="team-row" data-team="${escapeHtml(team.name)}">
-        <span class="seed">#${team.seed}</span>
-        <span class="flag" aria-hidden="true">${flagEmoji(team.code)}</span>
-        <span class="team-name">${escapeHtml(team.name)}</span>
+    function teamRow(teamName) {
+      const name = teamName || "TBD";
+      return `<div class="team-row" data-team="${escapeHtml(name)}">
+        <span class="flag" aria-hidden="true">${flagEmoji(name)}</span>
+        <span class="team-name">${escapeHtml(name)}</span>
       </div>`;
     }
 
-    function quarterfinalNode(match, position) {
-      return `<section class="bracket-node match-card" style="${nodeStyle(position)}" data-route="${match.id.toLowerCase()}">
-        <div class="match-label"><span>${match.id}</span><span>Awaiting match</span></div>
-        ${teamRow(match.teamA)}${teamRow(match.teamB)}
+    function emptyMatch(round) {
+      return { round, team_a: "TBD", team_b: "TBD", starts_at_utc: null, score: null };
+    }
+
+    function quarterfinalNode(slot) {
+      return `<section class="bracket-node match-card" style="${nodeStyle(slot.node)}" data-route="${slot.id.toLowerCase()}">
+        <div class="match-label"><span>${slot.id}</span><span>${escapeHtml(matchMeta(slot.match))}</span></div>
+        ${teamRow(slot.match.team_a)}${teamRow(slot.match.team_b)}
       </section>`;
     }
 
-    function placeholderRow(label) {
-      return `<div class="team-row placeholder-row">
-        <span class="flag" aria-hidden="true">?</span>
-        <span class="team-name">${escapeHtml(label)}</span>
-      </div>`;
-    }
-
-    function advanceNode(id, position, sources) {
+    function advanceNode(id, position, match) {
       return `<section class="bracket-node match-card advanced-card" style="${nodeStyle(position)}" data-route="${id.toLowerCase()}">
-        <div class="match-label"><span>${id}</span><span>TBD</span></div>
-        ${placeholderRow("Winner " + sources[0])}${placeholderRow("Winner " + sources[1])}
+        <div class="match-label"><span>${id}</span><span>${escapeHtml(matchMeta(match))}</span></div>
+        ${teamRow(match.team_a)}${teamRow(match.team_b)}
       </section>`;
     }
 
-    function medalNodes() {
+    function medalNodes(goldMatch, bronzeMatch) {
       return `<section class="bracket-node match-card medal-card gold-node" style="${nodeStyle(POSITIONS.GOLD)}" data-route="gold">
-          <div class="match-label"><span>🏆 Gold</span><span>Match</span></div>
-          ${placeholderRow("Winner SF1")}${placeholderRow("Winner SF2")}
+          <div class="match-label"><span>Gold</span><span>${escapeHtml(matchMeta(goldMatch))}</span></div>
+          ${teamRow(goldMatch.team_a)}${teamRow(goldMatch.team_b)}
         </section>
         <section class="bracket-node match-card medal-card bronze-node" style="${nodeStyle(POSITIONS.BRONZE)}" data-route="bronze">
-          <div class="match-label"><span>Bronze</span><span>Match</span></div>
-          ${placeholderRow("Loser SF1")}${placeholderRow("Loser SF2")}
+          <div class="match-label"><span>Bronze</span><span>${escapeHtml(matchMeta(bronzeMatch))}</span></div>
+          ${teamRow(bronzeMatch.team_a)}${teamRow(bronzeMatch.team_b)}
         </section>`;
     }
 
@@ -678,20 +747,59 @@
       return `<path class="connector${loser ? " loser-path" : ""}" d="${path}" data-route="${route}"></path>`;
     }
 
-    function renderClassic(data) {
+    function finalMatches(competition, round) {
+      return scheduleData.matches
+        .filter(match => match.competition === competition && match.phase === "Final" && match.round === round)
+        .sort((a, b) => new Date(a.starts_at_utc) - new Date(b.starts_at_utc));
+    }
+
+    function matchTeams(match) {
+      return [match.team_a, match.team_b].filter(team => !isTbd(team));
+    }
+
+    function assignSemifinals(quarterfinals, semifinals) {
+      const remaining = [...semifinals];
+      return [quarterfinals.slice(0, 2), quarterfinals.slice(2, 4)].map(branch => {
+        const candidates = new Set(branch.flatMap(matchTeams));
+        const matchingIndex = remaining.findIndex(match =>
+          matchTeams(match).some(team => candidates.has(team))
+        );
+        if (matchingIndex >= 0) return remaining.splice(matchingIndex, 1)[0];
+        return remaining.shift() || emptyMatch("Semifinal");
+      });
+    }
+
+    function buildBracket(competition) {
+      const quarterfinalMatches = finalMatches(competition, "Quarterfinal");
+      const quarterfinals = SLOT_LAYOUTS.map((layout, index) => ({
+        ...layout,
+        match: quarterfinalMatches[index] || emptyMatch("Quarterfinal")
+      }));
+      const semifinals = assignSemifinals(
+        quarterfinals.map(slot => slot.match),
+        finalMatches(competition, "Semifinal")
+      );
+      return {
+        quarterfinals,
+        semifinals,
+        bronze: finalMatches(competition, "Bronze")[0] || emptyMatch("Bronze"),
+        gold: finalMatches(competition, "Final")[0] || emptyMatch("Final")
+      };
+    }
+
+    function renderClassic(bracket) {
       const nodes = [];
       const paths = [];
-      for (const match of data.quarterfinals) {
-        const layout = POSITIONS[match.id];
-        const qf = match.id.toLowerCase();
-        const sf = layout.semifinal.toLowerCase();
-        const direction = layout.node[0] < 50 ? "right" : "left";
-        nodes.push(quarterfinalNode(match, layout.node));
-        paths.push(connector(bracketPath(layout.node, POSITIONS[layout.semifinal], direction), `${qf} ${sf}`));
+      for (const slot of bracket.quarterfinals) {
+        const qf = slot.id.toLowerCase();
+        const sf = slot.semifinal.toLowerCase();
+        const direction = slot.node[0] < 50 ? "right" : "left";
+        nodes.push(quarterfinalNode(slot));
+        paths.push(connector(bracketPath(slot.node, POSITIONS[slot.semifinal], direction), `${qf} ${sf}`));
       }
-      nodes.push(advanceNode("SF1", POSITIONS.SF1, ["QF1", "QF4"]));
-      nodes.push(advanceNode("SF2", POSITIONS.SF2, ["QF2", "QF3"]));
-      nodes.push(medalNodes());
+      nodes.push(advanceNode("SF1", POSITIONS.SF1, bracket.semifinals[0]));
+      nodes.push(advanceNode("SF2", POSITIONS.SF2, bracket.semifinals[1]));
+      nodes.push(medalNodes(bracket.gold, bracket.bronze));
       paths.push(connector(bracketPath(POSITIONS.SF1, POSITIONS.GOLD, "right"), "sf1 gold"));
       paths.push(connector(bracketPath(POSITIONS.SF2, POSITIONS.GOLD, "left"), "sf2 gold"));
       paths.push(connector(bracketPath(POSITIONS.SF1, POSITIONS.BRONZE, "right"), "sf1 bronze", true));
@@ -702,29 +810,38 @@
     }
 
     function matchupText(match) {
-      return `${flagEmoji(match.teamA.code)} ${match.teamA.name} v ${flagEmoji(match.teamB.code)} ${match.teamB.name}`;
+      const matchup = `${flagEmoji(match.team_a)} ${match.team_a} v ${flagEmoji(match.team_b)} ${match.team_b}`;
+      return match.score ? `${matchup} · ${match.score}` : matchup;
     }
 
-    function renderMobile(data) {
-      const quarterfinals = data.quarterfinals.map(match => `<div class="mobile-match">
-        <strong>${match.id}</strong><span class="mobile-teams">${escapeHtml(matchupText(match))}</span><span class="mobile-status">Awaiting match</span>
-      </div>`).join("");
+    function mobileMatch(label, match) {
+      return `<div class="mobile-match">
+        <strong>${label}</strong><span class="mobile-teams">${escapeHtml(matchupText(match))}</span><span class="mobile-status">${escapeHtml(formatMatchDate(match))}</span>
+      </div>`;
+    }
+
+    function renderMobile(bracket) {
+      const quarterfinals = bracket.quarterfinals.map(slot => mobileMatch(slot.id, slot.match)).join("");
       document.querySelector("#mobile-bracket").innerHTML = `
         <section class="mobile-round"><h2>Quarterfinals</h2>${quarterfinals}</section>
         <section class="mobile-round"><h2>Semifinals</h2>
-          <div class="mobile-match"><strong>SF1</strong><span class="mobile-teams">Winner QF1 v Winner QF4</span><span class="mobile-status">Pending</span></div>
-          <div class="mobile-match"><strong>SF2</strong><span class="mobile-teams">Winner QF2 v Winner QF3</span><span class="mobile-status">Pending</span></div>
+          ${mobileMatch("SF1", bracket.semifinals[0])}${mobileMatch("SF2", bracket.semifinals[1])}
         </section>
         <section class="mobile-round"><h2>Medal matches</h2>
-          <div class="mobile-match"><strong>Gold</strong><span class="mobile-teams">Winner SF1 v Winner SF2</span><span class="mobile-status">Pending</span></div>
-          <div class="mobile-match"><strong>Bronze</strong><span class="mobile-teams">Loser SF1 v Loser SF2</span><span class="mobile-status">Pending</span></div>
+          ${mobileMatch("Gold", bracket.gold)}${mobileMatch("Bronze", bracket.bronze)}
         </section>`;
     }
 
-    function setupHighlight(data) {
-      const teams = data.quarterfinals.flatMap(match => [match.teamA, match.teamB]);
+    function setupHighlight(bracket) {
+      const matches = [
+        ...bracket.quarterfinals.map(slot => slot.match),
+        ...bracket.semifinals,
+        bracket.gold,
+        bracket.bronze
+      ];
+      const teams = [...new Set(matches.flatMap(match => matchTeams(match)))].sort();
       document.querySelector("#highlight").innerHTML = '<option value="">No highlight</option>' + teams.map(team =>
-        `<option value="${escapeHtml(team.name)}">${escapeHtml(team.name)}</option>`
+        `<option value="${escapeHtml(team)}">${escapeHtml(team)}</option>`
       ).join("");
     }
 
@@ -734,12 +851,11 @@
       elements.forEach(element => element.classList.remove("is-dimmed", "is-highlighted"));
       if (!teamName) return;
 
-      const match = BRACKETS[selectedCompetition].quarterfinals.find(item =>
-        item.teamA.name === teamName || item.teamB.name === teamName
-      );
-      if (!match) return;
-      const qf = match.id.toLowerCase();
-      const sf = POSITIONS[match.id].semifinal.toLowerCase();
+      const slot = activeBracket.quarterfinals.find(item => matchTeams(item.match).includes(teamName));
+      const semifinalIndex = activeBracket.semifinals.findIndex(match => matchTeams(match).includes(teamName));
+      const qf = slot?.id.toLowerCase() || "";
+      const sf = slot?.semifinal.toLowerCase() || (semifinalIndex >= 0 ? `sf${semifinalIndex + 1}` : "");
+      if (!qf && !sf) return;
 
       root.querySelectorAll("[data-route]").forEach(element => {
         const tokens = element.dataset.route.split(" ");
@@ -760,17 +876,34 @@
 
     function render(competition) {
       selectedCompetition = competition;
-      const data = BRACKETS[competition];
-      document.querySelector("#competition-label").textContent = data.label;
-      document.querySelector("#event-location").textContent = data.location;
-      document.querySelector("#event-dates").textContent = data.dates;
-      document.querySelector("#classic-bracket").setAttribute("aria-label", `VNL 2026 ${data.label}`);
+      activeTimezone = loadTimezonePreference();
+      const meta = EVENT_META[competition];
+      activeBracket = buildBracket(competition);
+      document.querySelector("#competition-label").textContent = meta.label;
+      document.querySelector("#event-location").textContent = meta.location;
+      document.querySelector("#event-dates").textContent = meta.dates;
+      document.querySelector("#event-timezone").textContent = `Times: ${activeTimezone}`;
+      document.querySelector("#classic-bracket").setAttribute("aria-label", `VNL 2026 ${meta.label}`);
       document.querySelectorAll("[data-competition]").forEach(button => {
         button.setAttribute("aria-pressed", String(button.dataset.competition === competition));
       });
-      renderClassic(data);
-      renderMobile(data);
-      setupHighlight(data);
+      renderClassic(activeBracket);
+      renderMobile(activeBracket);
+      setupHighlight(activeBracket);
+    }
+
+    async function loadSchedule() {
+      const response = await fetch(`${DATA_URL}?v=${Date.now()}`);
+      if (!response.ok) throw new Error(`Could not load ${DATA_URL}`);
+      scheduleData = await response.json();
+      const available = ["women", "men"].filter(competition =>
+        scheduleData.matches.some(match => match.competition === competition && match.phase === "Final")
+      );
+      document.querySelectorAll("[data-competition]").forEach(button => {
+        button.disabled = !available.includes(button.dataset.competition);
+      });
+      if (!available.includes(selectedCompetition)) selectedCompetition = available[0] || "women";
+      render(selectedCompetition);
     }
 
     document.querySelectorAll("[data-competition]").forEach(button => {
@@ -778,7 +911,14 @@
     });
     document.querySelector("#highlight").addEventListener("change", event => highlightRoute(event.target.value));
     document.querySelector("#print").addEventListener("click", () => window.print());
-    render(selectedCompetition);
+    window.addEventListener("storage", event => {
+      if (event.key === TIMEZONE_STORAGE_KEY && scheduleData) render(selectedCompetition);
+    });
+    loadSchedule().catch(error => {
+      document.querySelector("#classic-bracket").innerHTML = `<div class="bracket-status">Could not load knockout data.<br>${escapeHtml(error.message)}</div>`;
+      document.querySelector("#mobile-bracket").innerHTML = `<div class="bracket-status">Could not load knockout data.<br>${escapeHtml(error.message)}</div>`;
+    });
+    })();
   </script>
   <script
     data-name="BMC-Widget"
