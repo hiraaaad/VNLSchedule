@@ -39,6 +39,18 @@ POOL_VENUES: dict[Competition, dict[int, tuple[str, str, str]]] = {
     },
 }
 
+FINAL_VENUES: dict[Competition, tuple[str, str, str]] = {
+    "women": ("Macau East Asian Games Dome", "Macau", "China"),
+    "men": ("Beilun Gymnasium", "Ningbo", "China"),
+}
+
+FINAL_STAGES = [
+    ("Quarterfinals", "Quarterfinal", "QF"),
+    ("Semifinals", "Semifinal", "SF"),
+    ("3rd_place_match", "Bronze", "BR"),
+    ("Final", "Final", "GF"),
+]
+
 MONTHS = {
     "Jan": 1,
     "Feb": 2,
@@ -159,6 +171,59 @@ def parse_pool_matches(soup: BeautifulSoup, competition: Competition) -> list[Ma
     return matches
 
 
+def parse_final_matches(soup: BeautifulSoup, competition: Competition) -> list[Match]:
+    final_heading = soup.find(id="Final_round_3")
+    quarterfinal_heading = soup.find(id="Quarterfinals")
+    if final_heading is None or quarterfinal_heading is None:
+        return []
+
+    timezone_note = final_heading.find_next("ul")
+    if timezone_note is None:
+        msg = f"Could not find final-round timezone for {competition}"
+        raise ValueError(msg)
+    local_tz = parse_utc_offset(timezone_note.get_text(" ", strip=True))
+    venue, city, country = FINAL_VENUES[competition]
+
+    matches: list[Match] = []
+    for heading_id, round_name, match_prefix in FINAL_STAGES:
+        heading = soup.find(id=heading_id)
+        if heading is None:
+            continue
+        table = heading.find_next("table")
+        if table is None:
+            continue
+
+        sequence = 1
+        for row in table.find_all("tr")[1:]:
+            cells = [cell.get_text(" ", strip=True) for cell in row.find_all(["td", "th"])]
+            if len(cells) < 5:
+                continue
+            starts_at_utc = parse_match_datetime(cells[0], cells[1], local_tz)
+            if starts_at_utc is None:
+                continue
+            team_a = clean_team(cells[2]) or "TBD"
+            score = normalize_score(cells[3])
+            team_b = clean_team(cells[4]) or "TBD"
+            matches.append(
+                Match(
+                    competition=competition,
+                    phase="Final",
+                    round=round_name,
+                    match_no=f"{competition[0].upper()}{match_prefix}{sequence}",
+                    starts_at_utc=starts_at_utc,
+                    team_a=team_a,
+                    team_b=team_b,
+                    score=score,
+                    venue=venue,
+                    city=city,
+                    country=country,
+                    status="completed" if score else "scheduled",
+                )
+            )
+            sequence += 1
+    return matches
+
+
 def import_wikipedia() -> ScheduleData:
     pages: list[tuple[Competition, str, str]] = [
         ("women", WOMEN_URL, fetch_html(WOMEN_URL)),
@@ -166,7 +231,9 @@ def import_wikipedia() -> ScheduleData:
     ]
     matches: list[Match] = []
     for competition, _url, html in pages:
-        matches.extend(parse_pool_matches(BeautifulSoup(html, "html.parser"), competition))
+        soup = BeautifulSoup(html, "html.parser")
+        matches.extend(parse_pool_matches(soup, competition))
+        matches.extend(parse_final_matches(soup, competition))
     matches.sort(key=lambda match: (match.competition != "women", match.starts_at_utc, match.match_no))
     return ScheduleData(
         version=f"wikipedia-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}",

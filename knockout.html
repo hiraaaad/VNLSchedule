@@ -1,0 +1,778 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VNL 2026 Knockout Bracket</title>
+  <meta name="description" content="A printable knockout bracket for the Volleyball Nations League 2026 Final 8.">
+  <style>
+    :root {
+      --ink: #191919;
+      --muted: #706f6b;
+      --panel: #f7f3ea;
+      --panel-soft: #fffdfa;
+      --line: #d6d1c7;
+      --vnl-red: #f04d45;
+      --vnl-red-soft: #efaaa5;
+      --gold: #f4b942;
+      --bronze: #c77d55;
+      --accent: #006c67;
+    }
+
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: #171717;
+      background: #e9e8e4;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    button,
+    select { font: inherit; }
+
+    .app-shell {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .page-nav {
+      display: flex;
+      gap: 4px;
+      width: fit-content;
+      margin: 0 0 10px;
+      padding: 4px;
+      border: 1px solid #d8d8d8;
+      border-radius: 8px;
+      background: #fff;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .page-nav a {
+      padding: 7px 12px;
+      border-radius: 5px;
+      color: #666;
+      text-decoration: none;
+    }
+
+    .page-nav a[aria-current="page"] {
+      color: #fff;
+      background: var(--accent);
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: end;
+      margin: 0 0 14px;
+      padding: 12px;
+      border: 1px solid #d8d8d8;
+      border-radius: 8px;
+      background: #fff;
+      font-size: 13px;
+    }
+
+    .segmented {
+      display: inline-flex;
+      gap: 3px;
+      padding: 3px;
+      border: 1px solid #bdbdbd;
+      border-radius: 7px;
+      background: #f3f3f1;
+    }
+
+    .segmented button,
+    .print-button {
+      height: 34px;
+      padding: 0 13px;
+      border: 0;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .segmented button {
+      height: 28px;
+      color: #666;
+      background: transparent;
+      font-weight: 700;
+    }
+
+    .segmented button[aria-pressed="true"] {
+      color: #fff;
+      background: var(--accent);
+    }
+
+    .control-field {
+      display: grid;
+      gap: 4px;
+      color: #666;
+    }
+
+    .control-field select {
+      height: 34px;
+      min-width: 160px;
+      padding: 0 9px;
+      border: 1px solid #bdbdbd;
+      border-radius: 6px;
+      color: #171717;
+      background: #fff;
+    }
+
+    .print-button {
+      color: #fff;
+      background: var(--accent);
+      font-weight: 700;
+    }
+
+    .bracket-paper {
+      position: relative;
+      width: min(100%, 900px);
+      min-height: 1040px;
+      margin: 0 auto;
+      padding: 34px 30px 22px;
+      overflow: hidden;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 50% 45%, rgb(255 255 255 / 82%), transparent 46%),
+        var(--panel);
+      box-shadow: 0 10px 30px rgb(29 27 21 / 16%);
+    }
+
+    .bracket-paper::before,
+    .bracket-paper::after {
+      position: absolute;
+      left: 50%;
+      width: 112%;
+      height: 260px;
+      border: 4px solid var(--vnl-red);
+      border-radius: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      content: "";
+    }
+
+    .bracket-paper::before { top: -218px; }
+    .bracket-paper::after { bottom: -228px; }
+
+    .bracket-header {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: end;
+      padding: 8px 6px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .league-mark {
+      margin-bottom: 7px;
+      color: var(--vnl-red);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 29px;
+      line-height: .95;
+      letter-spacing: -.025em;
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+
+    .event-meta {
+      display: grid;
+      gap: 3px;
+      color: var(--ink);
+      text-align: right;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .event-meta span { color: var(--muted); }
+
+    .round-headings {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+      align-items: center;
+      margin: 20px 0 -36px;
+      color: #8a877f;
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .round-headings span:first-child { text-align: left; }
+    .round-headings span:last-child { text-align: right; }
+
+    .classic-bracket {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      aspect-ratio: 1.08 / 1;
+      margin: 0 auto;
+    }
+
+    .connectors {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .connector {
+      fill: none;
+      stroke: var(--vnl-red);
+      stroke-width: 2.5;
+      stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+      transition: opacity .2s ease, stroke .2s ease, stroke-width .2s ease;
+    }
+
+    .connector.loser-path {
+      stroke: var(--bronze);
+      stroke-dasharray: 6 5;
+      opacity: .75;
+    }
+
+    .bracket-node {
+      position: absolute;
+      z-index: 2;
+      transform: translate(-50%, -50%);
+      transition: opacity .2s ease, filter .2s ease, transform .2s ease;
+    }
+
+    .match-card {
+      width: 20%;
+      min-width: 142px;
+      overflow: hidden;
+      border: 2px solid var(--vnl-red);
+      border-radius: 11px;
+      background: rgb(255 253 250 / 97%);
+      box-shadow: 0 7px 18px rgb(64 52 42 / 10%);
+    }
+
+    .match-label {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 8px 4px;
+      color: var(--vnl-red);
+      border-bottom: 1px solid var(--line);
+      font-size: clamp(7px, .85vw, 9px);
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .match-label span:last-child { color: #8b8881; }
+
+    .team-row {
+      display: grid;
+      grid-template-columns: 23px 30px minmax(0, 1fr);
+      gap: 5px;
+      align-items: center;
+      min-height: 42px;
+      padding: 5px 7px;
+      transition: opacity .2s ease, background .2s ease;
+    }
+
+    .team-row + .team-row { border-top: 1px solid var(--line); }
+
+    .seed {
+      color: #85827b;
+      font-size: clamp(8px, .95vw, 10px);
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .flag {
+      display: grid;
+      width: 28px;
+      height: 28px;
+      place-items: center;
+      border: 1px solid #ded9cf;
+      border-radius: 50%;
+      background: #fff;
+      font-size: clamp(16px, 2.1vw, 21px);
+      line-height: 1;
+    }
+
+    .team-name {
+      min-width: 0;
+      color: var(--ink);
+      overflow-wrap: anywhere;
+      font-size: clamp(8px, 1.12vw, 11px);
+      font-weight: 800;
+      line-height: 1.05;
+    }
+
+    .advanced-card { width: 14%; min-width: 102px; }
+    .medal-card { width: 14%; min-width: 108px; }
+    .gold-node { border-color: var(--gold); }
+    .bronze-node { border-color: var(--bronze); }
+    .gold-node .match-label { color: #9b6b0a; }
+    .bronze-node .match-label { color: #8d4f2e; }
+
+    .placeholder-row {
+      grid-template-columns: 30px minmax(0, 1fr);
+      min-height: 38px;
+    }
+
+    .placeholder-row .flag {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .versus {
+      position: absolute;
+      left: 50%;
+      top: 48.5%;
+      z-index: 3;
+      transform: translate(-50%, -50%);
+      color: var(--vnl-red);
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .is-dimmed { opacity: .13 !important; }
+
+    .bracket-node.is-highlighted {
+      filter: drop-shadow(0 0 9px rgb(240 77 69 / 55%));
+      transform: translate(-50%, -50%) scale(1.025);
+    }
+
+    .team-row.is-highlighted { background: rgb(240 77 69 / 13%); }
+
+    .connector.is-highlighted {
+      stroke: #ff746d;
+      stroke-width: 4;
+      opacity: 1;
+    }
+
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      margin-top: -16px;
+      color: #807d76;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .legend span::before {
+      display: inline-block;
+      width: 22px;
+      margin-right: 5px;
+      border-top: 2px solid var(--vnl-red);
+      vertical-align: middle;
+      content: "";
+    }
+
+    .legend .bronze-key::before {
+      border-color: var(--bronze);
+      border-top-style: dashed;
+    }
+
+    .mobile-bracket { display: none; }
+
+    .page-note {
+      position: relative;
+      z-index: 1;
+      margin: 18px 0 0;
+      padding-top: 11px;
+      border-top: 1px solid var(--line);
+      color: #77746e;
+      font-size: 9px;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    @media screen and (max-width: 720px) {
+      .app-shell { padding: 10px; }
+      .controls { align-items: stretch; }
+      .control-field { flex: 1 1 100%; }
+      .control-field select { width: 100%; }
+
+      .bracket-paper {
+        min-height: 0;
+        padding: 24px 14px 20px;
+      }
+
+      .bracket-paper::after { bottom: -252px; }
+
+      .bracket-header { grid-template-columns: 1fr; }
+      .event-meta { text-align: left; }
+      h1 { font-size: 25px; }
+
+      .round-headings,
+      .classic-bracket,
+      .legend { display: none; }
+
+      .mobile-bracket {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        gap: 18px;
+        margin-top: 22px;
+      }
+
+      .mobile-round {
+        display: grid;
+        gap: 8px;
+      }
+
+      .mobile-round h2 {
+        margin: 0;
+        padding-bottom: 5px;
+        color: var(--ink);
+        border-bottom: 1px solid var(--vnl-red-soft);
+        font-size: 12px;
+        text-transform: uppercase;
+      }
+
+      .mobile-match {
+        display: grid;
+        grid-template-columns: 44px minmax(0, 1fr) auto;
+        gap: 7px;
+        align-items: center;
+        padding: 10px;
+        color: var(--ink);
+        border: 1px solid var(--vnl-red-soft);
+        border-radius: 8px;
+        background: var(--panel-soft);
+        font-size: 12px;
+      }
+
+      .mobile-match strong { color: var(--vnl-red); }
+      .mobile-teams { font-weight: 700; }
+      .mobile-status { color: #8a877f; font-size: 8px; text-transform: uppercase; }
+    }
+
+    @media print {
+      html,
+      body {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0;
+        background: var(--panel);
+      }
+
+      * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .page-nav,
+      .controls { display: none; }
+
+      .app-shell {
+        width: 210mm;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .bracket-paper {
+        width: 210mm;
+        min-height: 297mm;
+        padding: 9mm 8mm 7mm;
+        box-shadow: none;
+      }
+
+      .round-headings { display: grid !important; }
+      .classic-bracket { display: block !important; }
+      .legend { display: flex !important; }
+      .mobile-bracket { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <nav class="page-nav" aria-label="VNL pages">
+      <a href="index.html">Schedule</a>
+      <a href="knockout.html" aria-current="page">Knockout</a>
+    </nav>
+
+    <section class="controls" aria-label="Bracket controls">
+      <div class="segmented" aria-label="Competition">
+        <button type="button" data-competition="women" aria-pressed="true">Women</button>
+        <button type="button" data-competition="men" aria-pressed="false">Men</button>
+      </div>
+      <label class="control-field">
+        <span>Highlight</span>
+        <select id="highlight"><option value="">No highlight</option></select>
+      </label>
+      <button class="print-button" type="button" id="print">Print bracket</button>
+    </section>
+
+    <main class="bracket-paper">
+      <header class="bracket-header">
+        <div>
+          <div class="league-mark">Volleyball Nations League</div>
+          <h1>VNL 2026 Final 8</h1>
+          <div class="subtitle" id="competition-label">Women&rsquo;s road to the championship</div>
+        </div>
+        <div class="event-meta">
+          <strong id="event-location">Macao, China</strong>
+          <span id="event-dates">22&ndash;26 July 2026</span>
+        </div>
+      </header>
+
+      <div class="round-headings" aria-hidden="true">
+        <span>Quarterfinals</span><span>Semifinal</span><span>Medal matches</span><span>Semifinal</span><span>Quarterfinals</span>
+      </div>
+      <div class="classic-bracket" id="classic-bracket" aria-label="Women’s VNL 2026 knockout bracket"></div>
+      <div class="legend" aria-hidden="true">
+        <span>Winner path</span><span class="bronze-key">Semifinal loser path</span>
+      </div>
+      <div class="mobile-bracket" id="mobile-bracket"></div>
+
+      <p class="page-note">
+        Quarterfinal teams are shown from the confirmed Final 8 seeding. Match times, scores, and advancing teams will be added when final-phase fixtures are imported.
+      </p>
+    </main>
+  </div>
+
+  <script>
+    const BRACKETS = {
+      women: {
+        label: "Women’s road to the championship",
+        location: "Macao, China",
+        dates: "22–26 July 2026",
+        quarterfinals: [
+          { id: "QF1", teamA: { seed: 1, name: "United States", code: "US" }, teamB: { seed: 8, name: "China", code: "CN" } },
+          { id: "QF4", teamA: { seed: 4, name: "Türkiye", code: "TR" }, teamB: { seed: 5, name: "Canada", code: "CA" } },
+          { id: "QF2", teamA: { seed: 2, name: "Italy", code: "IT" }, teamB: { seed: 7, name: "Netherlands", code: "NL" } },
+          { id: "QF3", teamA: { seed: 3, name: "Brazil", code: "BR" }, teamB: { seed: 6, name: "Japan", code: "JP" } }
+        ]
+      },
+      men: {
+        label: "Men’s road to the championship",
+        location: "Ningbo, China",
+        dates: "29 July–2 August 2026",
+        quarterfinals: [
+          { id: "QF1", teamA: { seed: 1, name: "1st ranked" }, teamB: { seed: 8, name: "8th ranked" } },
+          { id: "QF4", teamA: { seed: 4, name: "4th ranked" }, teamB: { seed: 5, name: "5th ranked" } },
+          { id: "QF2", teamA: { seed: 2, name: "2nd ranked" }, teamB: { seed: 7, name: "7th ranked" } },
+          { id: "QF3", teamA: { seed: 3, name: "3rd ranked" }, teamB: { seed: 6, name: "6th ranked" } }
+        ]
+      }
+    };
+
+    const POSITIONS = {
+      QF1: { node: [10, 24], semifinal: "SF1" },
+      QF4: { node: [10, 72], semifinal: "SF1" },
+      QF2: { node: [90, 24], semifinal: "SF2" },
+      QF3: { node: [90, 72], semifinal: "SF2" },
+      SF1: [32, 48],
+      SF2: [68, 48],
+      GOLD: [50, 34],
+      BRONZE: [50, 72]
+    };
+
+    let selectedCompetition = "women";
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, character => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[character]));
+    }
+
+    function flagEmoji(code) {
+      if (!code) return "•";
+      return code.toUpperCase().split("").map(character =>
+        String.fromCodePoint(0x1F1E6 + character.charCodeAt(0) - 65)
+      ).join("");
+    }
+
+    function nodeStyle(position) {
+      return `left:${position[0]}%;top:${position[1]}%`;
+    }
+
+    function teamRow(team) {
+      return `<div class="team-row" data-team="${escapeHtml(team.name)}">
+        <span class="seed">#${team.seed}</span>
+        <span class="flag" aria-hidden="true">${flagEmoji(team.code)}</span>
+        <span class="team-name">${escapeHtml(team.name)}</span>
+      </div>`;
+    }
+
+    function quarterfinalNode(match, position) {
+      return `<section class="bracket-node match-card" style="${nodeStyle(position)}" data-route="${match.id.toLowerCase()}">
+        <div class="match-label"><span>${match.id}</span><span>Awaiting match</span></div>
+        ${teamRow(match.teamA)}${teamRow(match.teamB)}
+      </section>`;
+    }
+
+    function placeholderRow(label) {
+      return `<div class="team-row placeholder-row">
+        <span class="flag" aria-hidden="true">?</span>
+        <span class="team-name">${escapeHtml(label)}</span>
+      </div>`;
+    }
+
+    function advanceNode(id, position, sources) {
+      return `<section class="bracket-node match-card advanced-card" style="${nodeStyle(position)}" data-route="${id.toLowerCase()}">
+        <div class="match-label"><span>${id}</span><span>TBD</span></div>
+        ${placeholderRow("Winner " + sources[0])}${placeholderRow("Winner " + sources[1])}
+      </section>`;
+    }
+
+    function medalNodes() {
+      return `<section class="bracket-node match-card medal-card gold-node" style="${nodeStyle(POSITIONS.GOLD)}" data-route="gold">
+          <div class="match-label"><span>🏆 Gold</span><span>Match</span></div>
+          ${placeholderRow("Winner SF1")}${placeholderRow("Winner SF2")}
+        </section>
+        <section class="bracket-node match-card medal-card bronze-node" style="${nodeStyle(POSITIONS.BRONZE)}" data-route="bronze">
+          <div class="match-label"><span>Bronze</span><span>Match</span></div>
+          ${placeholderRow("Loser SF1")}${placeholderRow("Loser SF2")}
+        </section>`;
+    }
+
+    function point(position) {
+      return position.map(value => value * 9);
+    }
+
+    function bracketPath(start, end, direction) {
+      const [x1, y1] = point(start);
+      const [x2, y2] = point(end);
+      const bend = direction === "right" ? x1 + (x2 - x1) * .48 : x1 - (x1 - x2) * .48;
+      return `M ${x1} ${y1} H ${bend} V ${y2} H ${x2}`;
+    }
+
+    function connector(path, route, loser = false) {
+      return `<path class="connector${loser ? " loser-path" : ""}" d="${path}" data-route="${route}"></path>`;
+    }
+
+    function renderClassic(data) {
+      const nodes = [];
+      const paths = [];
+      for (const match of data.quarterfinals) {
+        const layout = POSITIONS[match.id];
+        const qf = match.id.toLowerCase();
+        const sf = layout.semifinal.toLowerCase();
+        const direction = layout.node[0] < 50 ? "right" : "left";
+        nodes.push(quarterfinalNode(match, layout.node));
+        paths.push(connector(bracketPath(layout.node, POSITIONS[layout.semifinal], direction), `${qf} ${sf}`));
+      }
+      nodes.push(advanceNode("SF1", POSITIONS.SF1, ["QF1", "QF4"]));
+      nodes.push(advanceNode("SF2", POSITIONS.SF2, ["QF2", "QF3"]));
+      nodes.push(medalNodes());
+      paths.push(connector(bracketPath(POSITIONS.SF1, POSITIONS.GOLD, "right"), "sf1 gold"));
+      paths.push(connector(bracketPath(POSITIONS.SF2, POSITIONS.GOLD, "left"), "sf2 gold"));
+      paths.push(connector(bracketPath(POSITIONS.SF1, POSITIONS.BRONZE, "right"), "sf1 bronze", true));
+      paths.push(connector(bracketPath(POSITIONS.SF2, POSITIONS.BRONZE, "left"), "sf2 bronze", true));
+      document.querySelector("#classic-bracket").innerHTML = `
+        <svg class="connectors" viewBox="0 0 900 900" aria-hidden="true">${paths.join("")}</svg>
+        ${nodes.join("")}<span class="versus">VS</span>`;
+    }
+
+    function matchupText(match) {
+      return `${flagEmoji(match.teamA.code)} ${match.teamA.name} v ${flagEmoji(match.teamB.code)} ${match.teamB.name}`;
+    }
+
+    function renderMobile(data) {
+      const quarterfinals = data.quarterfinals.map(match => `<div class="mobile-match">
+        <strong>${match.id}</strong><span class="mobile-teams">${escapeHtml(matchupText(match))}</span><span class="mobile-status">Awaiting match</span>
+      </div>`).join("");
+      document.querySelector("#mobile-bracket").innerHTML = `
+        <section class="mobile-round"><h2>Quarterfinals</h2>${quarterfinals}</section>
+        <section class="mobile-round"><h2>Semifinals</h2>
+          <div class="mobile-match"><strong>SF1</strong><span class="mobile-teams">Winner QF1 v Winner QF4</span><span class="mobile-status">Pending</span></div>
+          <div class="mobile-match"><strong>SF2</strong><span class="mobile-teams">Winner QF2 v Winner QF3</span><span class="mobile-status">Pending</span></div>
+        </section>
+        <section class="mobile-round"><h2>Medal matches</h2>
+          <div class="mobile-match"><strong>Gold</strong><span class="mobile-teams">Winner SF1 v Winner SF2</span><span class="mobile-status">Pending</span></div>
+          <div class="mobile-match"><strong>Bronze</strong><span class="mobile-teams">Loser SF1 v Loser SF2</span><span class="mobile-status">Pending</span></div>
+        </section>`;
+    }
+
+    function setupHighlight(data) {
+      const teams = data.quarterfinals.flatMap(match => [match.teamA, match.teamB]);
+      document.querySelector("#highlight").innerHTML = '<option value="">No highlight</option>' + teams.map(team =>
+        `<option value="${escapeHtml(team.name)}">${escapeHtml(team.name)}</option>`
+      ).join("");
+    }
+
+    function highlightRoute(teamName) {
+      const root = document.querySelector("#classic-bracket");
+      const elements = root.querySelectorAll("[data-route], .team-row");
+      elements.forEach(element => element.classList.remove("is-dimmed", "is-highlighted"));
+      if (!teamName) return;
+
+      const match = BRACKETS[selectedCompetition].quarterfinals.find(item =>
+        item.teamA.name === teamName || item.teamB.name === teamName
+      );
+      if (!match) return;
+      const qf = match.id.toLowerCase();
+      const sf = POSITIONS[match.id].semifinal.toLowerCase();
+
+      root.querySelectorAll("[data-route]").forEach(element => {
+        const tokens = element.dataset.route.split(" ");
+        const isFeed = tokens.length === 2 && (tokens[0].startsWith("qf") || tokens[0].startsWith("sf"));
+        const onRoute = isFeed
+          ? tokens[0] === qf || tokens[0] === sf
+          : tokens.includes(qf) || tokens.includes(sf) || tokens.includes("gold") || tokens.includes("bronze");
+        element.classList.toggle("is-highlighted", onRoute);
+        element.classList.toggle("is-dimmed", !onRoute);
+      });
+
+      root.querySelectorAll(".team-row[data-team]").forEach(element => {
+        const selected = element.dataset.team === teamName;
+        element.classList.toggle("is-highlighted", selected);
+        element.classList.toggle("is-dimmed", !selected);
+      });
+    }
+
+    function render(competition) {
+      selectedCompetition = competition;
+      const data = BRACKETS[competition];
+      document.querySelector("#competition-label").textContent = data.label;
+      document.querySelector("#event-location").textContent = data.location;
+      document.querySelector("#event-dates").textContent = data.dates;
+      document.querySelector("#classic-bracket").setAttribute("aria-label", `VNL 2026 ${data.label}`);
+      document.querySelectorAll("[data-competition]").forEach(button => {
+        button.setAttribute("aria-pressed", String(button.dataset.competition === competition));
+      });
+      renderClassic(data);
+      renderMobile(data);
+      setupHighlight(data);
+    }
+
+    document.querySelectorAll("[data-competition]").forEach(button => {
+      button.addEventListener("click", () => render(button.dataset.competition));
+    });
+    document.querySelector("#highlight").addEventListener("change", event => highlightRoute(event.target.value));
+    document.querySelector("#print").addEventListener("click", () => window.print());
+    render(selectedCompetition);
+  </script>
+</body>
+</html>

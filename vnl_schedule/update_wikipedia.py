@@ -28,9 +28,12 @@ def load_existing(path: Path) -> ScheduleData | None:
     return ScheduleData.model_validate_json(path.read_text(encoding="utf-8"))
 
 
-def match_identity(match: Match) -> tuple[str, str, str, str]:
+def match_identity(match: Match) -> tuple[str, ...]:
+    if match.match_no:
+        return (match.competition, "match_no", match.match_no)
     return (
         match.competition,
+        "teams",
         match.round,
         match.team_a.casefold(),
         match.team_b.casefold(),
@@ -40,7 +43,9 @@ def match_identity(match: Match) -> tuple[str, str, str, str]:
 def comparable_match(match: Match) -> dict[str, str]:
     return {
         "competition": match.competition,
+        "phase": match.phase,
         "round": match.round,
+        "match_no": match.match_no,
         "starts_at_utc": match.starts_at_utc.isoformat(),
         "team_a": match.team_a,
         "team_b": match.team_b,

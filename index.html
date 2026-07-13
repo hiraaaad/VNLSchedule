@@ -37,6 +37,31 @@
       padding: 16px;
     }
 
+    .page-nav {
+      display: flex;
+      gap: 4px;
+      width: fit-content;
+      margin: 0 0 10px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .page-nav a {
+      padding: 7px 12px;
+      border-radius: 5px;
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .page-nav a[aria-current="page"] {
+      color: #fff;
+      background: var(--accent);
+    }
+
     .controls {
       display: flex;
       flex-wrap: wrap;
@@ -286,7 +311,8 @@
         margin: 0;
       }
 
-      .controls { display: none; }
+      .controls,
+      .page-nav { display: none; }
 
       #bmc-wbtn,
       #bmc-iframe-wrapper,
@@ -375,6 +401,10 @@
 </head>
 <body>
   <div class="app-shell">
+    <nav class="page-nav" aria-label="VNL pages">
+      <a href="index.html" aria-current="page">Schedule</a>
+      <a href="knockout.html">Knockout</a>
+    </nav>
     <form class="controls" id="controls">
       <label>
         <span>Timezone</span>
@@ -645,9 +675,17 @@
       return match ? Number(match[1]) : null;
     }
 
-    function poolLabel(round) {
-      const match = String(round || "").match(/\bP(\d+)\b/);
-      return match ? `P${match[1]}` : "";
+    function roundLabel(match) {
+      if (String(match.phase || "").toLowerCase() === "final") {
+        return ({
+          quarterfinal: "QF",
+          semifinal: "SF",
+          bronze: "3RD",
+          final: "FINAL"
+        })[String(match.round || "").toLowerCase()] || match.round;
+      }
+      const pool = String(match.round || "").match(/\bP(\d+)\b/);
+      return pool ? `P${pool[1]}` : "";
     }
 
     function matchupLabel(match, showResults) {
@@ -695,8 +733,9 @@
       return offset ? `${timezone} (${name}, ${offset.replace("GMT", "UTC")})` : timezone;
     }
 
-    function sectionTitle(week, competition) {
-      return `WK${week} ${competition.charAt(0).toUpperCase()}${competition.slice(1)}`;
+    function sectionTitle(section) {
+      const competition = section.competition.charAt(0).toUpperCase() + section.competition.slice(1);
+      return section.phase === "Final" ? `Finals ${competition}` : `WK${section.week} ${competition}`;
     }
 
     function render() {
@@ -728,8 +767,20 @@
               return { match, date, ...formatParts(date, timezone) };
             })
             .sort((a, b) => a.date - b.date);
-          if (matches.length) sections.push({ week, competition, matches });
+          if (matches.length) sections.push({ week, phase: "Preliminary", competition, matches });
         }
+      }
+
+      for (const competition of selectedCompetitions) {
+        const matches = scheduleData.matches
+          .filter(match => match.competition === competition && String(match.phase || "").toLowerCase() === "final")
+          .filter(match => !(hideCompleted && match.status === "completed"))
+          .map(match => {
+            const date = new Date(match.starts_at_utc);
+            return { match, date, ...formatParts(date, timezone) };
+          })
+          .sort((a, b) => a.date - b.date);
+        if (matches.length) sections.push({ week: null, phase: "Final", competition, matches });
       }
 
       const html = sections.map(section => {
@@ -745,7 +796,7 @@
             const venue = [match.city, match.country].filter(Boolean).join(", ");
             return `
               <div class="match${isHighlighted ? " highlighted" : ""}">
-                <div class="round">${escapeHtml(poolLabel(match.round))}</div>
+                <div class="round">${escapeHtml(roundLabel(match))}</div>
                 <div class="time">${escapeHtml(item.timeLabel)}</div>
                 <div class="teams">${escapeHtml(matchupLabel(match, showResults))}</div>
                 <div class="venue">${escapeHtml(venue)}</div>
@@ -762,7 +813,7 @@
         return `
           <section class="section">
             <div class="section-title">
-              <h2>${escapeHtml(sectionTitle(section.week, section.competition))}</h2>
+              <h2>${escapeHtml(sectionTitle(section))}</h2>
               <span>${section.matches.length} matches</span>
             </div>
             <div class="days">${daysHtml}</div>

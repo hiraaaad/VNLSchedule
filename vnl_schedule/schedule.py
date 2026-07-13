@@ -87,6 +87,14 @@ class RenderedMatch:
     @property
     def round_label(self) -> str:
         label = self.match.round or self.match.phase
+        final_labels = {
+            "quarterfinal": "QF",
+            "semifinal": "SF",
+            "bronze": "3RD",
+            "final": "FINAL",
+        }
+        if self.match.phase.casefold() == "final":
+            return final_labels.get(label.casefold(), label)
         pool = re.search(r"\bP(\d+)\b", label)
         if pool:
             return f"P{pool.group(1)}"
@@ -140,14 +148,12 @@ def build_sections(
     hide_completed: bool = False,
 ) -> list[RenderSection]:
     sections: list[RenderSection] = []
-    section_keys: list[tuple[int | None, Competition]] = []
+    section_keys: list[tuple[int, Competition]] = []
     for week in (1, 2, 3):
         for competition in competitions:
             section_keys.append((week, competition))
-    for competition in competitions:
-        section_keys.append((None, competition))
 
-    seen: set[tuple[int | None, Competition]] = set()
+    seen: set[tuple[int, Competition]] = set()
     for week, competition in section_keys:
         if (week, competition) in seen:
             continue
@@ -164,13 +170,33 @@ def build_sections(
         days: OrderedDict[str, list[RenderedMatch]] = OrderedDict()
         for item in rendered:
             days.setdefault(item.day_key, []).append(item)
-        title = f"VNL 2026 {competition.title()}"
-        if week is not None:
-            title = f"WK{week} {competition.title()}"
+        title = f"WK{week} {competition.title()}"
         sections.append(
             RenderSection(
                 competition=competition,
                 title=title,
+                days=days,
+            )
+        )
+
+    for competition in competitions:
+        rendered = [
+            convert_match(match, timezone_name, highlight)
+            for match in schedule.matches
+            if match.competition == competition
+            and match.phase.casefold() == "final"
+            and not (hide_completed and match.status == "completed")
+        ]
+        if not rendered:
+            continue
+        rendered.sort(key=lambda item: item.local_datetime)
+        days: OrderedDict[str, list[RenderedMatch]] = OrderedDict()
+        for item in rendered:
+            days.setdefault(item.day_key, []).append(item)
+        sections.append(
+            RenderSection(
+                competition=competition,
+                title=f"Finals {competition.title()}",
                 days=days,
             )
         )
