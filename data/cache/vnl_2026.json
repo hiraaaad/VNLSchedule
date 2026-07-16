@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260716212742",
+  "version": "wikipedia-20260716231401",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-07-16T21:27:42.676086Z",
+  "generated_at": "2026-07-16T23:14:01.717528Z",
   "matches": [
     {
       "competition": "women",
@@ -2826,11 +2826,11 @@
       "starts_at_utc": "2026-07-16T21:00:00Z",
       "team_a": "China",
       "team_b": "France",
-      "score": null,
+      "score": "0-3",
       "venue": "NOW Arena",
       "city": "Chicago",
       "country": "United States",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
