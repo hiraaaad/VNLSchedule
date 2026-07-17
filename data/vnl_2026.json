@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260717173325",
+  "version": "wikipedia-20260717211107",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-07-17T17:33:25.351391Z",
+  "generated_at": "2026-07-17T21:11:07.182877Z",
   "matches": [
     {
       "competition": "women",
@@ -2868,11 +2868,11 @@
       "starts_at_utc": "2026-07-17T18:00:00Z",
       "team_a": "Iran",
       "team_b": "Slovenia",
-      "score": null,
+      "score": "0-3",
       "venue": "Belgrade Arena",
       "city": "Belgrade",
       "country": "Serbia",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
