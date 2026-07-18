@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260717211107",
+  "version": "wikipedia-20260718033755",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-07-17T21:11:07.182877Z",
+  "generated_at": "2026-07-18T03:37:55.262508Z",
   "matches": [
     {
       "competition": "women",
@@ -2882,11 +2882,11 @@
       "starts_at_utc": "2026-07-17T21:00:00Z",
       "team_a": "China",
       "team_b": "Bulgaria",
-      "score": null,
+      "score": "1-3",
       "venue": "NOW Arena",
       "city": "Chicago",
       "country": "United States",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
@@ -2896,18 +2896,18 @@
       "starts_at_utc": "2026-07-18T01:00:00Z",
       "team_a": "Brazil",
       "team_b": "Poland",
-      "score": null,
+      "score": "0-3",
       "venue": "NOW Arena",
       "city": "Chicago",
       "country": "United States",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
       "phase": "Preliminary",
       "round": "Week 3 P9",
       "match_no": "M104",
-      "starts_at_utc": "2026-07-18T07:00:00Z",
+      "starts_at_utc": "2026-07-18T04:00:00Z",
       "team_a": "Canada",
       "team_b": "Cuba",
       "score": null,
