@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260718062323",
+  "version": "wikipedia-20260718135324",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-07-18T06:23:23.922454Z",
+  "generated_at": "2026-07-18T13:53:24.717355Z",
   "matches": [
     {
       "competition": "women",
@@ -2924,11 +2924,11 @@
       "starts_at_utc": "2026-07-18T10:20:00Z",
       "team_a": "Argentina",
       "team_b": "Italy",
-      "score": null,
+      "score": "0-3",
       "venue": "Asue Arena Osaka",
       "city": "Osaka",
       "country": "Japan",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
