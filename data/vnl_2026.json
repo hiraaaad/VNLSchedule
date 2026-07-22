@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260720182403",
+  "version": "wikipedia-20260722103538",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-07-20T18:24:03.559996Z",
+  "generated_at": "2026-07-22T10:35:38.437463Z",
   "matches": [
     {
       "competition": "women",
@@ -1524,11 +1524,11 @@
       "starts_at_utc": "2026-07-22T08:00:00Z",
       "team_a": "Italy",
       "team_b": "Netherlands",
-      "score": null,
+      "score": "3-0",
       "venue": "Macau East Asian Games Dome",
       "city": "Macau",
       "country": "China",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "women",
