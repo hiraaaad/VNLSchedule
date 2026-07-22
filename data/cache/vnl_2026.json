@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260722103538",
+  "version": "wikipedia-20260722142842",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-07-22T10:35:38.437463Z",
+  "generated_at": "2026-07-22T14:28:42.814878Z",
   "matches": [
     {
       "competition": "women",
@@ -1538,11 +1538,11 @@
       "starts_at_utc": "2026-07-22T11:30:00Z",
       "team_a": "Brazil",
       "team_b": "Japan",
-      "score": null,
+      "score": "3-1",
       "venue": "Macau East Asian Games Dome",
       "city": "Macau",
       "country": "China",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "women",
