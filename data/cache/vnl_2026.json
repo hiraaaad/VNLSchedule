@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260723103610",
+  "version": "wikipedia-20260723143652",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-07-23T10:36:10.641845Z",
+  "generated_at": "2026-07-23T14:36:52.672680Z",
   "matches": [
     {
       "competition": "women",
@@ -1566,6 +1566,34 @@
       "starts_at_utc": "2026-07-23T11:30:00Z",
       "team_a": "United States",
       "team_b": "China",
+      "score": "2-3",
+      "venue": "Macau East Asian Games Dome",
+      "city": "Macau",
+      "country": "China",
+      "status": "completed"
+    },
+    {
+      "competition": "women",
+      "phase": "Final",
+      "round": "Semifinal",
+      "match_no": "WSF1",
+      "starts_at_utc": "2026-07-25T08:00:00Z",
+      "team_a": "Brazil",
+      "team_b": "Italy",
+      "score": null,
+      "venue": "Macau East Asian Games Dome",
+      "city": "Macau",
+      "country": "China",
+      "status": "scheduled"
+    },
+    {
+      "competition": "women",
+      "phase": "Final",
+      "round": "Semifinal",
+      "match_no": "WSF2",
+      "starts_at_utc": "2026-07-25T11:30:00Z",
+      "team_a": "China",
+      "team_b": "Turkey",
       "score": null,
       "venue": "Macau East Asian Games Dome",
       "city": "Macau",
