@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260729105827",
+  "version": "wikipedia-20260729143430",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-07-29T10:58:27.132677Z",
+  "generated_at": "2026-07-29T14:34:30.179314Z",
   "matches": [
     {
       "competition": "women",
@@ -3162,11 +3162,11 @@
       "starts_at_utc": "2026-07-29T11:30:00Z",
       "team_a": "Japan",
       "team_b": "China",
-      "score": null,
+      "score": "3-1",
       "venue": "Beilun Gymnasium",
       "city": "Ningbo",
       "country": "China",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
@@ -3202,7 +3202,7 @@
       "round": "Semifinal",
       "match_no": "MSF1",
       "starts_at_utc": "2026-08-01T07:00:00Z",
-      "team_a": "TBD",
+      "team_a": "Slovenia",
       "team_b": "TBD",
       "score": null,
       "venue": "Beilun Gymnasium",
@@ -3216,7 +3216,7 @@
       "round": "Semifinal",
       "match_no": "MSF2",
       "starts_at_utc": "2026-08-01T11:30:00Z",
-      "team_a": "TBD",
+      "team_a": "Japan",
       "team_b": "TBD",
       "score": null,
       "venue": "Beilun Gymnasium",
