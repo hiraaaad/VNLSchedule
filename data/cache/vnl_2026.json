@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260729143430",
+  "version": "wikipedia-20260730103453",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-07-29T14:34:30.179314Z",
+  "generated_at": "2026-07-30T10:34:53.738616Z",
   "matches": [
     {
       "competition": "women",
@@ -3176,11 +3176,11 @@
       "starts_at_utc": "2026-07-30T07:00:00Z",
       "team_a": "Italy",
       "team_b": "United States",
-      "score": null,
+      "score": "0-3",
       "venue": "Beilun Gymnasium",
       "city": "Ningbo",
       "country": "China",
-      "status": "scheduled"
+      "status": "completed"
     },
     {
       "competition": "men",
@@ -3217,7 +3217,7 @@
       "match_no": "MSF2",
       "starts_at_utc": "2026-08-01T11:30:00Z",
       "team_a": "Japan",
-      "team_b": "TBD",
+      "team_b": "United States",
       "score": null,
       "venue": "Beilun Gymnasium",
       "city": "Ningbo",
