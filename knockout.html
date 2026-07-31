@@ -757,31 +757,43 @@
       return [match.team_a, match.team_b].filter(team => !isTbd(team));
     }
 
-    function assignSemifinals(quarterfinals, semifinals) {
-      const remaining = [...semifinals];
-      return [quarterfinals.slice(0, 2), quarterfinals.slice(2, 4)].map(branch => {
-        const candidates = new Set(branch.flatMap(matchTeams));
-        const matchingIndex = remaining.findIndex(match =>
-          matchTeams(match).some(team => candidates.has(team))
+    function assignQuarterfinalBranches(quarterfinals, semifinals) {
+      const remaining = [...quarterfinals];
+      return semifinals.map(semifinal => {
+        const semifinalTeams = new Set(matchTeams(semifinal));
+        const branch = remaining.filter(quarterfinal =>
+          matchTeams(quarterfinal).some(team => semifinalTeams.has(team))
         );
-        if (matchingIndex >= 0) return remaining.splice(matchingIndex, 1)[0];
-        return remaining.shift() || emptyMatch("Semifinal");
+        branch.forEach(quarterfinal => {
+          remaining.splice(remaining.indexOf(quarterfinal), 1);
+        });
+        return branch;
       });
     }
 
     function buildBracket(competition) {
       const quarterfinalMatches = finalMatches(competition, "Quarterfinal");
+      const semifinalMatches = finalMatches(competition, "Semifinal");
+      const quarterfinalBranches = assignQuarterfinalBranches(
+        quarterfinalMatches,
+        semifinalMatches
+      );
+      const assignedQuarterfinals = quarterfinalBranches.flat();
+      const arrangedQuarterfinals = [
+        ...assignedQuarterfinals,
+        ...quarterfinalMatches.filter(match =>
+          !assignedQuarterfinals.includes(match)
+        )
+      ];
       const quarterfinals = SLOT_LAYOUTS.map((layout, index) => ({
         ...layout,
-        match: quarterfinalMatches[index] || emptyMatch("Quarterfinal")
+        match: arrangedQuarterfinals[index] || emptyMatch("Quarterfinal")
       }));
-      const semifinals = assignSemifinals(
-        quarterfinals.map(slot => slot.match),
-        finalMatches(competition, "Semifinal")
-      );
       return {
         quarterfinals,
-        semifinals,
+        semifinals: semifinalMatches.length
+          ? semifinalMatches
+          : [emptyMatch("Semifinal"), emptyMatch("Semifinal")],
         bronze: finalMatches(competition, "Bronze")[0] || emptyMatch("Bronze"),
         gold: finalMatches(competition, "Final")[0] || emptyMatch("Final")
       };
