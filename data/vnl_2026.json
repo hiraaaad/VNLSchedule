@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260801101231",
+  "version": "wikipedia-20260801113632",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-08-01T10:12:31.713467Z",
+  "generated_at": "2026-08-01T11:36:32.037494Z",
   "matches": [
     {
       "competition": "women",
@@ -3229,7 +3229,7 @@
       "phase": "Final",
       "round": "Bronze",
       "match_no": "MBR1",
-      "starts_at_utc": "2026-08-02T07:00:00Z",
+      "starts_at_utc": "2026-08-02T07:40:00Z",
       "team_a": "TBD",
       "team_b": "Slovenia",
       "score": null,
