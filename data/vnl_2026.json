@@ -1,8 +1,8 @@
 {
-  "version": "wikipedia-20260802101109",
+  "version": "wikipedia-20260802140221",
   "source_name": "Wikipedia 2026 FIVB Volleyball Nations League pages",
   "source_url": "https://en.wikipedia.org/wiki/2026_FIVB_Women%27s_Volleyball_Nations_League | https://en.wikipedia.org/wiki/2026_FIVB_Men%27s_Volleyball_Nations_League",
-  "generated_at": "2026-08-02T10:11:09.089908Z",
+  "generated_at": "2026-08-02T14:02:21.151005Z",
   "matches": [
     {
       "competition": "women",
@@ -3246,11 +3246,11 @@
       "starts_at_utc": "2026-08-02T11:30:00Z",
       "team_a": "United States",
       "team_b": "Poland",
-      "score": null,
+      "score": "2-3",
       "venue": "Beilun Gymnasium",
       "city": "Ningbo",
       "country": "China",
-      "status": "scheduled"
+      "status": "completed"
     }
   ]
 }
